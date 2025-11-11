@@ -4,84 +4,140 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FC Web 25</title>
-    <link rel="stylesheet" href="css/style.css">
-    <!-- Подключаем Three.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r168/build/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.168.0/examples/js/loaders/GLTFLoader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.168.0/examples/js/controls/OrbitControls.js"></script>
+    <style>
+        body {
+            background: #000;
+            color: #fff;
+            font-family: monospace;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .screen {
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .loading-screen {
+            background: url('https://avatars.mds.yandex.net/i?id=24208835363afc86296e4f74d47e2f47071973ea-3986150-images-thumbs&n=13') no-repeat center center;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .main-menu {
+            background: url('https://avatars.mds.yandex.net/i?id=10d21f8f0393d4612d4dbf1165969fb57b95112e-5305969-images-thumbs&n=13') no-repeat center center;
+            background-size: cover;
+            padding: 20px;
+        }
+
+        h1, h2, h3 {
+            color: #00ff00;
+            margin: 10px 0;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        button {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            margin: 5px 0;
+            cursor: pointer;
+            font-family: monospace;
+        }
+
+        button:hover {
+            background: #555;
+        }
+
+        .menu-item {
+            cursor: pointer;
+            padding: 5px 0;
+        }
+
+        .menu-item:hover {
+            color: #00ff00;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #00ff00;
+            color: black;
+            padding: 10px 20px;
+            border-radius: 8px;
+            z-index: 1000;
+        }
+    </style>
 </head>
 <body>
 
 <!-- Загрузочный экран -->
-<div id="loading-screen" class="screen">
-    <div class="loading-content">
-        <img src="images/loading.jpg" alt="Загрузка" class="loading-img">
-        <div class="progress-bar">
-            <div class="progress" id="progress"></div>
-        </div>
-        <p id="loading-text">GETTING WARMED UP...</p>
+<div id="loading-screen" class="screen loading-screen">
+    <h1>ЗАГРУЗКА</h1>
+    <p>GETTING WARMED UP...</p>
+    <div id="progress-bar" style="width: 100%; max-width: 400px; height: 10px; background: #333; border-radius: 5px; overflow: hidden;">
+        <div id="progress" style="width: 0%; height: 100%; background: #00ff00;"></div>
     </div>
 </div>
 
-<!-- Главное меню -->
-<div id="main-menu" class="screen hidden">
-    <div class="menu-header">
-        <div class="user-info">
-            <img src="images/user-avatar.png" alt="Аватар" class="avatar">
-            <div class="user-stats">
-                <span class="username">Lux</span>
-                <span class="level">5</span>
-                <span class="xp">20/120XP</span>
-            </div>
-        </div>
-        <div class="game-currency">
-            <span class="currency gold">70,000</span>
-            <span class="currency diamond">2,150</span>
-            <span class="currency green">0</span>
-            <span class="icon-group">
-                <img src="images/friends-icon.png" alt="Друзья">
-                <img src="images/mail-icon.png" alt="Почта">
-                <img src="images/settings-icon.png" alt="Настройки">
-            </span>
-        </div>
+<!-- Основное меню -->
+<div id="main-menu" class="screen hidden main-menu">
+    <h1>FC WEB 25</h1>
+    <div class="user-info">
+        <span>▶ Аватар</span>
+        <span>▶ Lux 5 20/120XP</span>
+        <span>▶ Друзья</span>
+        <span>▶ Почта</span>
+        <span>▶ Настройки</span>
     </div>
-
-    <div class="main-banner">
-        <img src="images/kickoff-banner.jpg" alt="Kick-off" class="banner-img">
+    <div class="game-currency">
+        <span>⚡ 70,000</span>
+        <span>💎 2,150</span>
+        <span>🟢 0</span>
     </div>
-
     <div class="club-info">
-        <h3>CLUB</h3>
-        <div class="club-stats">
-            <span>OVR 76</span>
-            <img src="images/club-logo.png" alt="Клуб">
-        </div>
+        <h2>CLUB</h2>
+        <span>OVR 76</span>
+        <a href="https://www.fifamobile.com/clubs/psg" target="_blank">▶ Клуб</a>
     </div>
-
     <div class="menu-buttons">
-        <button id="btn-quests">QUESTS</button>
-        <button id="btn-leagues">LEAGUES</button>
-        <button id="btn-market">MARKET</button>
-        <button id="btn-exchange">EXCHANGE</button>
-        <button id="btn-store">STORE</button>
+        <div class="menu-item" id="btn-quests">QUESTS</div>
+        <div class="menu-item" id="btn-leagues">LEAGUES</div>
+        <div class="menu-item" id="btn-market">MARKET</div>
+        <div class="menu-item" id="btn-exchange">EXCHANGE</div>
+        <div class="menu-item" id="btn-store">STORE</div>
     </div>
-
     <div class="game-controls">
-        <div class="control-panel">
-            <h4>Game controls</h4>
-            <label>
-                <input type="checkbox" checked> On-screen controls
-            </label>
-            <label>
-                Opacity: <input type="range" min="0" max="100" value="100">
-            </label>
-            <label>
-                Controls for: <select><option>Basic</option></select>
-            </label>
-            <button>Controls editor</button>
-        </div>
+        <h3>Game controls</h3>
+        <label><input type="checkbox" checked> On-screen controls</label>
+        <label>Opacity: <input type="range" min="0" max="100" value="100"></label>
+        <label>Controls for: <select><option>Basic</option></select></label>
+        <button>Controls editor</button>
     </div>
-
     <div class="play-button">
         <button id="btn-play">PLAY</button>
     </div>
@@ -99,22 +155,18 @@
 
 <!-- Экран 3D-пенальти -->
 <div id="penalty-screen" class="screen hidden">
-    <div class="penalty-header">
-        <div class="scoreboard">
-            <span>MCI 3 - 4 PSG</span>
-            <span>PENALTIES</span>
-        </div>
-        <div class="player-info">
-            <span>Vinícius Jr.</span>
-            <img src="images/player-avatar.png" alt="Игрок">
-        </div>
+    <h2>ПЕНАЛЬТИ</h2>
+    <div class="penalty-info">
+        <span>MCI 3 - 4 PSG</span>
+        <span>PENALTIES</span>
+        <span>Vinícius Jr.</span>
     </div>
     <div id="penalty-viewer" class="penalty-viewer"></div>
     <div class="penalty-controls">
-        <div class="control-btn" id="btn-quiet">QUIET</div>
-        <div class="control-btn" id="btn-cavadinha">CAVADINHA</div>
-        <div class="control-btn" id="btn-replace">TO REPLACE</div>
-        <div class="control-btn" id="btn-super-kick">SUPER KICK</div>
+        <button id="btn-quiet">QUIET</button>
+        <button id="btn-cavadinha">CAVADINHA</button>
+        <button id="btn-replace">TO REPLACE</button>
+        <button id="btn-super-kick">SUPER KICK</button>
     </div>
     <button id="btn-penalty-back">НАЗАД</button>
 </div>
@@ -122,33 +174,20 @@
 <!-- Экран карточек игроков -->
 <div id="players-screen" class="screen hidden">
     <h2>КАРТОЧКИ ИГРОКОВ</h2>
-    <div class="players-grid">
-        <!-- Пример карточки -->
-        <div class="player-card" data-player="cruyff">
-            <img src="images/player-cards/cruyff.png" alt="Cruyff">
-            <div class="card-info">
-                <span>109 CAM</span>
-                <span>Cruyff</span>
-            </div>
-            <button class="view-3d">3D Вид</button>
+    <div class="players-list">
+        <div class="player-item">
+            <a href="https://www.futbin.com/25/player/109/cruyff" target="_blank">▶ Cruyff 109 CAM</a>
+            <button class="view-3d" data-player="cruyff">3D Вид</button>
         </div>
-        <div class="player-card" data-player="casillas">
-            <img src="images/player-cards/casillas.png" alt="Casillas">
-            <div class="card-info">
-                <span>109 GK</span>
-                <span>Casillas</span>
-            </div>
-            <button class="view-3d">3D Вид</button>
+        <div class="player-item">
+            <a href="https://www.futbin.com/25/player/109/casillas" target="_blank">▶ Casillas 109 GK</a>
+            <button class="view-3d" data-player="casillas">3D Вид</button>
         </div>
-        <div class="player-card" data-player="bale">
-            <img src="images/player-cards/bale.png" alt="Bale">
-            <div class="card-info">
-                <span>109 RW</span>
-                <span>Bale</span>
-            </div>
-            <button class="view-3d">3D Вид</button>
+        <div class="player-item">
+            <a href="https://www.futbin.com/25/player/109/bale" target="_blank">▶ Bale 109 RW</a>
+            <button class="view-3d" data-player="bale">3D Вид</button>
         </div>
-        <!-- Добавьте больше карточек -->
+        <!-- Добавьте больше игроков -->
     </div>
     <button id="btn-players-back">НАЗАД</button>
 </div>
@@ -158,36 +197,31 @@
     <h2>LEAGUE</h2>
     <div class="club-panel">
         <div class="club-stats">
-            <img src="images/club-logo.png" alt="Клуб">
-            <span>FC Mobile</span>
+            <span>▶ FC Mobile</span>
             <span>63/100</span>
             <span>99</span>
-            <div class="stat-circle">
-                <span>WIN 75%</span>
-            </div>
+            <span>WIN 75%</span>
             <span>FANS 8,500,000</span>
             <span>CUPS 9,500,000</span>
             <span>SEASON POINTS 250,000</span>
         </div>
         <div class="tournament-panel">
             <h3>LEAGUE TOURNAMENT</h3>
-            <label>
-                <input type="checkbox" checked> Automatically sign up for the league tournament.
-            </label>
+            <label><input type="checkbox" checked> Automatically sign up for the league tournament.</label>
             <h4>SELECTED:</h4>
-            <div class="club-grid">
-                <img src="images/club-logos/psg.png" alt="PSG">
-                <img src="images/club-logos/man-city.png" alt="Man City">
-                <img src="images/club-logos/liverpool.png" alt="Liverpool">
-                <img src="images/club-logos/chelsea.png" alt="Chelsea">
-                <img src="images/club-logos/tottenham.png" alt="Tottenham">
-                <img src="images/club-logos/real.png" alt="Real Madrid">
-                <img src="images/club-logos/atletico.png" alt="Atletico">
-                <img src="images/club-logos/juventus.png" alt="Juventus">
-                <img src="images/club-logos/dortmund.png" alt="Dortmund">
-                <img src="images/club-logos/napoli.png" alt="Napoli">
-                <img src="images/club-logos/roma.png" alt="Roma">
-                <img src="images/club-logos/barca.png" alt="Barcelona">
+            <div class="club-links">
+                <a href="https://www.fifamobile.com/clubs/psg" target="_blank">▶ PSG</a>
+                <a href="https://www.fifamobile.com/clubs/man-city" target="_blank">▶ Man City</a>
+                <a href="https://www.fifamobile.com/clubs/liverpool" target="_blank">▶ Liverpool</a>
+                <a href="https://www.fifamobile.com/clubs/chelsea" target="_blank">▶ Chelsea</a>
+                <a href="https://www.fifamobile.com/clubs/tottenham" target="_blank">▶ Tottenham</a>
+                <a href="https://www.fifamobile.com/clubs/real" target="_blank">▶ Real Madrid</a>
+                <a href="https://www.fifamobile.com/clubs/atletico" target="_blank">▶ Atletico</a>
+                <a href="https://www.fifamobile.com/clubs/juventus" target="_blank">▶ Juventus</a>
+                <a href="https://www.fifamobile.com/clubs/dortmund" target="_blank">▶ Dortmund</a>
+                <a href="https://www.fifamobile.com/clubs/napoli" target="_blank">▶ Napoli</a>
+                <a href="https://www.fifamobile.com/clubs/roma" target="_blank">▶ Roma</a>
+                <a href="https://www.fifamobile.com/clubs/barca" target="_blank">▶ Barcelona</a>
             </div>
             <div class="search-status">
                 <span>FINDING OPPONENT</span>
@@ -203,32 +237,23 @@
 <div id="events-screen" class="screen hidden">
     <h2>EVENTS</h2>
     <div class="event-banner">
-        <img src="images/events/neon-event.jpg" alt="Neon Event">
-        <div class="event-info">
-            <h3>Choose Your NEON Player</h3>
-            <div class="neon-players">
-                <div class="neon-player">
-                    <img src="images/player-cards/charlton.png" alt="Charlton">
-                    <span>107 CAM</span>
-                    <span>Charlton</span>
-                    <button>CHOOSE</button>
-                </div>
-                <div class="neon-player">
-                    <img src="images/player-cards/maradona.png" alt="Maradona">
-                    <span>107 CAM</span>
-                    <span>Maradona</span>
-                    <button>CHOOSE</button>
-                </div>
-                <div class="neon-player">
-                    <img src="images/player-cards/hakimi.png" alt="Hakimi">
-                    <span>106 RB</span>
-                    <span>Hakimi</span>
-                    <button>CHOOSE</button>
-                </div>
+        <a href="https://www.fifamobile.com/events/neon" target="_blank">▶ Choose Your NEON Player</a>
+        <div class="neon-players">
+            <div class="neon-player">
+                <a href="https://www.futbin.com/25/player/107/charlton" target="_blank">▶ Charlton 107 CAM</a>
+                <button>CHOOSE</button>
             </div>
-            <div class="code-box">
-                <span>CODE: NEON</span>
+            <div class="neon-player">
+                <a href="https://www.futbin.com/25/player/107/maradona" target="_blank">▶ Maradona 107 CAM</a>
+                <button>CHOOSE</button>
             </div>
+            <div class="neon-player">
+                <a href="https://www.futbin.com/25/player/106/hakimi" target="_blank">▶ Hakimi 106 RB</a>
+                <button>CHOOSE</button>
+            </div>
+        </div>
+        <div class="code-box">
+            <span>CODE: NEON</span>
         </div>
     </div>
     <div class="quest-list">
@@ -249,10 +274,231 @@
     <button id="btn-events-back">НАЗАД</button>
 </div>
 
-<script src="js/main.js"></script>
-<script src="js/game.js"></script>
-<script src="js/ui.js"></script>
-<script src="js/penalty.js"></script>
+<script>
+    // --- Ждём загрузки DOM ---
+    document.addEventListener('DOMContentLoaded', function () {
+        console.log("🎮 FC Web 25 запущена!");
+
+        // --- Запускаем загрузку ---
+        startLoading();
+    });
+
+    function startLoading() {
+        const loadingScreen = document.getElementById('loading-screen');
+        const progress = document.getElementById('progress');
+
+        let percent = 0;
+        const interval = setInterval(() => {
+            percent += 1;
+            progress.style.width = `${percent}%`;
+            if (percent >= 100) {
+                clearInterval(interval);
+                setTimeout(() => {
+                    loadingScreen.classList.add('hidden');
+                    showScreen('main-menu');
+                }, 500);
+            }
+        }, 20);
+    }
+
+    function showScreen(screenId) {
+        // Скрываем все экраны
+        document.querySelectorAll('.screen').forEach(screen => {
+            screen.classList.add('hidden');
+        });
+        // Показываем нужный экран
+        document.getElementById(screenId).classList.remove('hidden');
+    }
+
+    // --- Обработчики кнопок ---
+    document.getElementById('btn-play').addEventListener('click', () => {
+        showScreen('mode-select');
+    });
+
+    document.getElementById('btn-penalty').addEventListener('click', () => {
+        showScreen('penalty-screen');
+    });
+
+    document.getElementById('btn-simulation').addEventListener('click', () => {
+        alert('Симуляция матча пока недоступна.');
+    });
+
+    document.getElementById('btn-back-to-menu').addEventListener('click', () => {
+        showScreen('main-menu');
+    });
+
+    document.getElementById('btn-quests').addEventListener('click', () => {
+        showScreen('events-screen');
+    });
+
+    document.getElementById('btn-leagues').addEventListener('click', () => {
+        showScreen('clubs-screen');
+    });
+
+    document.getElementById('btn-market').addEventListener('click', () => {
+        window.open('https://www.fifamobile.com/market', '_blank');
+    });
+
+    document.getElementById('btn-exchange').addEventListener('click', () => {
+        window.open('https://www.fifamobile.com/exchange', '_blank');
+    });
+
+    document.getElementById('btn-store').addEventListener('click', () => {
+        window.open('https://www.fifamobile.com/store', '_blank');
+    });
+
+    document.getElementById('btn-players-back').addEventListener('click', () => {
+        showScreen('main-menu');
+    });
+
+    document.getElementById('btn-clubs-back').addEventListener('click', () => {
+        showScreen('main-menu');
+    });
+
+    document.getElementById('btn-events-back').addEventListener('click', () => {
+        showScreen('main-menu');
+    });
+
+    document.getElementById('btn-start-penalty-quest').addEventListener('click', () => {
+        showScreen('penalty-screen');
+    });
+
+    // --- Обработчики для карточек игроков ---
+    document.querySelectorAll('.view-3d').forEach(button => {
+        button.addEventListener('click', function() {
+            const player = this.getAttribute('data-player');
+            open3DView(player);
+        });
+    });
+
+    // --- Открытие 3D-просмотра ---
+    function open3DView(playerName) {
+        const modelPath = `models/${playerName}.glb`;
+        const newWindow = window.open('', '_blank', 'width=800,height=600');
+        newWindow.document.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>3D ${playerName}</title>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r168/build/three.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/three@0.168.0/examples/js/loaders/GLTFLoader.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/three@0.168.0/examples/js/controls/OrbitControls.js"></script>
+                <style>
+                    body { margin: 0; background: #000; }
+                    canvas { display: block; }
+                </style>
+            </head>
+            <body>
+                <script>
+                    const scene = new THREE.Scene();
+                    scene.background = new THREE.Color(0x000000);
+
+                    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                    camera.position.z = 5;
+
+                    const renderer = new THREE.WebGLRenderer({ antialias: true });
+                    renderer.setSize(window.innerWidth, window.innerHeight);
+                    document.body.appendChild(renderer.domElement);
+
+                    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+                    scene.add(ambientLight);
+
+                    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+                    directionalLight.position.set(1, 1, 1).normalize();
+                    scene.add(directionalLight);
+
+                    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+                    controls.enableDamping = true;
+                    controls.dampingFactor = 0.05;
+                    controls.screenSpacePanning = false;
+                    controls.minDistance = 1;
+                    controls.maxDistance = 10;
+
+                    const loader = new THREE.GLTFLoader();
+                    loader.load(
+                        '${modelPath}',
+                        (gltf) => {
+                            scene.add(gltf.scene);
+                            const box = new THREE.Box3().setFromObject(gltf.scene);
+                            const center = box.getCenter(new THREE.Vector3());
+                            const size = box.getSize(new THREE.Vector3()).length();
+                            gltf.scene.position.sub(center);
+                            const scale = 2 / size;
+                            gltf.scene.scale.set(scale, scale, scale);
+                            camera.position.z = size * 1.5;
+                            controls.update();
+                        },
+                        (progress) => {
+                            console.log('Загрузка модели:', (progress.loaded / progress.total * 100).toFixed(2) + '%');
+                        },
+                        (error) => {
+                            console.error('Ошибка загрузки модели:', error);
+                            alert('Не удалось загрузить модель игрока.');
+                        }
+                    );
+
+                    function animate() {
+                        requestAnimationFrame(animate);
+                        controls.update();
+                        renderer.render(scene, camera);
+                    }
+                    animate();
+
+                    window.addEventListener('resize', () => {
+                        camera.aspect = window.innerWidth / window.innerHeight;
+                        camera.updateProjectionMatrix();
+                        renderer.setSize(window.innerWidth, window.innerHeight);
+                    });
+                </script>
+            </body>
+            </html>
+        `);
+    }
+
+    // --- Обработчики для кнопок пенальти ---
+    document.getElementById('btn-quiet').addEventListener('click', () => {
+        performPenalty('Quiet');
+    });
+
+    document.getElementById('btn-cavadinha').addEventListener('click', () => {
+        performPenalty('Cavadinha');
+    });
+
+    document.getElementById('btn-replace').addEventListener('click', () => {
+        alert('Игрок заменён.');
+    });
+
+    document.getElementById('btn-super-kick').addEventListener('click', () => {
+        performPenalty('Super Kick');
+    });
+
+    document.getElementById('btn-penalty-back').addEventListener('click', () => {
+        showScreen('mode-select');
+    });
+
+    function performPenalty(kickType) {
+        console.log(`Выполнен удар: ${kickType}`);
+        const success = Math.random() > 0.3; // 70% шанс забить
+        if (success) {
+            alert("ГОООООЛ! 🎉");
+            showNotification("Задание выполнено! Получите награду.");
+        } else {
+            alert("Промах! 😢");
+        }
+    }
+
+    function showNotification(message) {
+        const notification = document.createElement('div');
+        notification.textContent = message;
+        notification.className = 'notification';
+        document.body.appendChild(notification);
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 3000);
+    }
+
+    console.log("✅ UI инициализирована.");
+</script>
 
 </body>
 </html>
