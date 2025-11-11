@@ -18,25 +18,92 @@
 <div class="container">
     <h1>3D Футболисты</h1>
     <div class="cards-container">
+        <!-- Карточка Ибрагимовича -->
         <div class="player-card" data-model="ibrahimovic">
-            <h2>Златан Ибрагимович</h2>
-            <button class="view-btn">Внешний вид</button>
+            <div class="card-frame frame-blue">
+                <div class="rating">97</div>
+                <div class="position">ST</div>
+                <img src="images/ibrahimovic.png" alt="Златан Ибрагимович" class="player-img">
+                <div class="name">Златан<br>Ибрагимович</div>
+                <div class="stats">
+                    <div class="stat"><span>PAC</span><span>92</span></div>
+                    <div class="stat"><span>SHO</span><span>99</span></div>
+                    <div class="stat"><span>PAS</span><span>90</span></div>
+                    <div class="stat"><span>DRI</span><span>96</span></div>
+                    <div class="stat"><span>DEF</span><span>45</span></div>
+                    <div class="stat"><span>PHY</span><span>91</span></div>
+                </div>
+                <div class="flag"><img src="images/portugal.png" alt="Португалия"></div>
+                <div class="formation">5-4</div>
+                <button class="view-btn">Внешний вид</button>
+            </div>
         </div>
+
+        <!-- Карточка Месси -->
         <div class="player-card" data-model="messi">
-            <h2>Лионель Месси</h2>
-            <button class="view-btn">Внешний вид</button>
+            <div class="card-frame frame-pink">
+                <div class="rating">93</div>
+                <div class="position">RW</div>
+                <img src="images/messi.png" alt="Лионель Месси" class="player-img">
+                <div class="name">Лионель<br>Месси</div>
+                <div class="stats">
+                    <div class="stat"><span>PAC</span><span>87</span></div>
+                    <div class="stat"><span>SHO</span><span>90</span></div>
+                    <div class="stat"><span>PAS</span><span>93</span></div>
+                    <div class="stat"><span>DRI</span><span>96</span></div>
+                    <div class="stat"><span>DEF</span><span>39</span></div>
+                    <div class="stat"><span>PHY</span><span>71</span></div>
+                </div>
+                <div class="flag"><img src="images/argentina.png" alt="Аргентина"></div>
+                <div class="formation">4-4</div>
+                <button class="view-btn">Внешний вид</button>
+            </div>
         </div>
+
+        <!-- Карточка Неймара -->
         <div class="player-card" data-model="neymar">
-            <h2>Неймар</h2>
-            <button class="view-btn">Внешний вид</button>
+            <div class="card-frame frame-green">
+                <div class="rating">91</div>
+                <div class="position">CAM</div>
+                <img src="images/neymar.png" alt="Неймар" class="player-img">
+                <div class="name">Неймар</div>
+                <div class="stats">
+                    <div class="stat"><span>PAC</span><span>88</span></div>
+                    <div class="stat"><span>SHO</span><span>86</span></div>
+                    <div class="stat"><span>PAS</span><span>90</span></div>
+                    <div class="stat"><span>DRI</span><span>99</span></div>
+                    <div class="stat"><span>DEF</span><span>41</span></div>
+                    <div class="stat"><span>PHY</span><span>66</span></div>
+                </div>
+                <div class="flag"><img src="images/brazil.png" alt="Бразилия"></div>
+                <div class="formation">5-5</div>
+                <button class="view-btn">Внешний вид</button>
+            </div>
         </div>
+
+        <!-- Карточка Роналду -->
         <div class="player-card" data-model="ronaldo">
-            <h2>Криштиану Роналду</h2>
-            <button class="view-btn">Внешний вид</button>
+            <div class="card-frame frame-gold">
+                <div class="rating">97</div>
+                <div class="position">ST</div>
+                <img src="images/ronaldo.png" alt="Криштиану Роналду" class="player-img">
+                <div class="name">Криштиану<br>Роналду</div>
+                <div class="stats">
+                    <div class="stat"><span>PAC</span><span>92</span></div>
+                    <div class="stat"><span>SHO</span><span>99</span></div>
+                    <div class="stat"><span>PAS</span><span>90</span></div>
+                    <div class="stat"><span>DRI</span><span>96</span></div>
+                    <div class="stat"><span>DEF</span><span>45</span></div>
+                    <div class="stat"><span>PHY</span><span>91</span></div>
+                </div>
+                <div class="flag"><img src="images/portugal.png" alt="Португалия"></div>
+                <div class="formation">5-4</div>
+                <button class="view-btn">Внешний вид</button>
+            </div>
         </div>
     </div>
 
-    <!-- Контейнер для 3D-сцены, изначально скрыт -->
+    <!-- Контейнер для 3D-сцены -->
     <div id="model-container" class="model-container">
         <div id="3d-viewer" class="viewer"></div>
         <button id="back-btn" class="back-btn">Назад к карточкам</button>
