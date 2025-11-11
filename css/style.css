@@ -1,216 +1,622 @@
-/* Сброс и базовые стили */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: #1a1a1a;
-    color: #ffffff;
+/* --- Главное меню --- */
+#main-menu {
+    background: url('images/bg-main.jpg') no-repeat center center;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
     padding: 20px;
+    gap: 20px;
 }
 
-.container {
-    max-width: 1200px;
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    background: rgba(0,0,0,0.7);
+    border-radius: 8px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.username {
+    font-weight: bold;
+    color: #00ff00;
+}
+
+.level {
+    background: #007bff;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.xp {
+    font-size: 0.8rem;
+    color: #ccc;
+}
+
+.game-currency {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.currency {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: bold;
+}
+
+.currency.gold {
+    color: #ffd700;
+}
+
+.currency.diamond {
+    color: #ff0000;
+}
+
+.currency.green {
+    color: #00ff00;
+}
+
+.icon-group img {
+    width: 24px;
+    height: 24px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.main-banner {
+    width: 100%;
+    max-width: 600px;
     margin: 0 auto;
 }
 
-h1 {
-    text-align: center;
-    margin-bottom: 2rem;
-    color: #f0f0f0;
-    font-size: 2.5rem;
-    letter-spacing: 1px;
+.banner-img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
 }
 
-.cards-container {
+.club-info {
+    background: rgba(0,0,0,0.7);
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.club-stats {
     display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.club-stats span {
+    font-weight: bold;
+    color: #fff;
+}
+
+.club-stats img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.menu-buttons {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
+}
+
+.menu-buttons button {
+    padding: 10px 20px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+}
+
+.menu-buttons button:hover {
+    background: #555;
+}
+
+.game-controls {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.7);
+    padding: 15px;
+    border-radius: 8px;
+    z-index: 100;
+}
+
+.control-panel h4 {
+    color: #00ff00;
+    margin-bottom: 10px;
+}
+
+.control-panel label {
+    display: block;
+    margin: 5px 0;
+    color: #fff;
+}
+
+.control-panel input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.control-panel select {
+    width: 100%;
+    padding: 5px;
+    background: #222;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+.control-panel button {
+    width: 100%;
+    padding: 5px;
+    background: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.play-button {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.play-button button {
+    padding: 15px 40px;
+    background: #00ff00;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.play-button button:hover {
+    background: #00cc00;
+}
+
+/* --- Экран выбора режима --- */
+#mode-select {
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
     gap: 20px;
-    flex-wrap: wrap;
-    margin-bottom: 2rem;
+}
+
+#mode-select h2 {
+    font-size: 2rem;
+    color: #00ff00;
+}
+
+.mode-buttons {
+    display: flex;
+    gap: 20px;
+}
+
+.mode-buttons button {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.mode-buttons button:hover {
+    background: #0056b3;
+}
+
+/* --- Экран 3D-пенальти --- */
+#penalty-screen {
+    background: url('images/stadium.jpg') no-repeat center center;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.penalty-header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px;
+    background: rgba(0,0,0,0.7);
+    border-radius: 8px;
+}
+
+.scoreboard {
+    display: flex;
+    gap: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.player-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+}
+
+.player-info img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.penalty-viewer {
+    width: 100%;
+    height: 400px;
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.penalty-controls {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+.penalty-controls .control-btn {
+    padding: 10px 20px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+}
+
+.penalty-controls .control-btn:hover {
+    background: #555;
+}
+
+/* --- Экран карточек игроков --- */
+#players-screen {
+    background: #ff0000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.players-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    width: 100%;
 }
 
 .player-card {
-    width: 250px;
-    height: 350px;
-    position: relative;
-    cursor: pointer;
-}
-
-.card-frame {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    border-radius: 12px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px;
-    background-size: cover;
-    background-position: center;
+    cursor: pointer;
     transition: transform 0.2s;
 }
 
-.card-frame:hover {
-    transform: scale(1.03);
+.player-card:hover {
+    transform: scale(1.05);
 }
 
-/* Цвета рамок */
-.frame-blue {
-    background: linear-gradient(135deg, #1e3c72, #2a52be);
-}
-.frame-pink {
-    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
-}
-.frame-green {
-    background: linear-gradient(135deg, #3cb371, #2e8b57);
-}
-.frame-gold {
-    background: linear-gradient(135deg, #ffd700, #daa520);
-}
-
-/* Рейтинг и позиция */
-.rating {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    font-size: 2rem;
-    font-weight: bold;
-    color: white;
-    text-shadow: 0 0 5px rgba(0,0,0,0.8);
-}
-
-.position {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    color: white;
-    background: rgba(0,0,0,0.5);
-    padding: 2px 6px;
-    border-radius: 4px;
-}
-
-/* Изображение игрока */
-.player-img {
-    width: 180px;
+.player-card img {
+    width: 100%;
     height: 200px;
     object-fit: cover;
-    border-radius: 8px;
-    margin-top: 40px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
-/* Имя игрока */
-.name {
-    margin-top: 10px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    text-align: center;
+.card-info {
+    padding: 10px;
+    background: #000;
     color: white;
-    text-shadow: 0 0 3px rgba(0,0,0,0.8);
+    text-align: center;
 }
 
-/* Статистика */
-.stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 5px;
-    margin-top: 10px;
+.card-info span:first-child {
+    font-weight: bold;
+    color: #00ff00;
+}
+
+.view-3d {
     width: 100%;
-    padding: 5px 0;
+    padding: 5px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
 }
 
-.stat {
+/* --- Экран клубов --- */
+#clubs-screen {
+    background: #000;
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: 0.7rem;
-    color: white;
+    gap: 20px;
+    padding: 20px;
 }
 
-.stat span:first-child {
-    font-weight: bold;
-    font-size: 0.8rem;
-}
-
-/* Флаг и формация */
-.flag img {
-    width: 20px;
-    height: 15px;
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    border-radius: 2px;
-}
-
-.formation {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    color: white;
-    background: rgba(0,0,0,0.5);
-    padding: 2px 6px;
-    border-radius: 4px;
-}
-
-/* Кнопка "Внешний вид" */
-.view-btn {
+.club-panel {
+    display: flex;
+    gap: 20px;
     width: 100%;
-    padding: 8px 10px;
-    background-color: #007bff;
+    max-width: 1000px;
+}
+
+.club-stats {
+    background: rgba(0,0,0,0.7);
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 300px;
+}
+
+.club-stats img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.club-stats span {
+    display: block;
+    margin: 5px 0;
+    color: #fff;
+}
+
+.stat-circle {
+    width: 100px;
+    height: 100px;
+    border: 5px solid #007bff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px auto;
+}
+
+.stat-circle span {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.tournament-panel {
+    background: rgba(0,0,0,0.7);
+    padding: 20px;
+    border-radius: 8px;
+    flex: 1;
+}
+
+.tournament-panel h3 {
+    color: #00ff00;
+    margin-bottom: 10px;
+}
+
+.tournament-panel label {
+    display: block;
+    margin: 10px 0;
+    color: #fff;
+}
+
+.club-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.club-grid img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.search-status {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.search-status span:first-child {
+    color: #00ff00;
+    font-weight: bold;
+}
+
+.search-status span:last-child {
+    color: #ccc;
+    font-size: 0.8rem;
+}
+
+.search-status button {
+    padding: 5px 10px;
+    background: #6c757d;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: bold;
-    margin-top: 10px;
-    transition: background-color 0.2s;
 }
 
-.view-btn:hover {
-    background-color: #0056b3;
-}
-
-/* Стили для 3D-контейнера */
-.model-container {
-    display: none;
+/* --- Экран ивентов --- */
+#events-screen {
+    background: #000;
+    display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
-    height: 70vh;
-    position: relative;
+    gap: 20px;
+    padding: 20px;
 }
 
-.viewer {
+.event-banner {
+    position: relative;
     width: 100%;
-    height: 100%;
+    max-width: 800px;
+    background: #111;
     border-radius: 8px;
     overflow: hidden;
-    background-color: #000;
 }
 
-.back-btn {
-    margin-top: 1rem;
-    background-color: #6c757d;
+.event-banner img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.event-info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.5);
     color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.event-info h3 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #00ff00;
+}
+
+.neon-players {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+}
+
+.neon-player {
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    width: 150px;
+}
+
+.neon-player img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.neon-player span:first-child {
+    font-weight: bold;
+    color: #00ff00;
+}
+
+.neon-player button {
+    width: 100%;
+    padding: 5px;
+    background: #00ff00;
+    color: black;
     border: none;
-    padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.2s;
+    font-weight: bold;
+    margin-top: 10px;
 }
 
-.back-btn:hover {
-    background-color: #5a6268;
+.code-box {
+    background: #00ff00;
+    color: black;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.quest-list {
+    width: 100%;
+    max-width: 600px;
+}
+
+.quest-list h3 {
+    color: #00ff00;
+    margin-bottom: 10px;
+}
+
+.quest-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
+    margin: 5px 0;
+}
+
+.quest-item span {
+    color: #fff;
+    font-weight: bold;
+}
+
+.quest-item button {
+    padding: 5px 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }
