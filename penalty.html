@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пенальти - FC Web 25</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/screens.css">
+</head>
+<body>
+
+<div id="penalty-screen" class="screen active">
+    <h1>ПЕНАЛЬТИ</h1>
+
+    <div class="penalty-viewer" id="penalty-viewer">
+        <!-- Здесь будет 3D-сцена -->
+    </div>
+
+    <div class="penalty-controls">
+        <button class="control-btn" onclick="shootPenalty('quiet')">ТИХИЙ УДАР</button>
+        <button class="control-btn" onclick="shootPenalty('cavadinha')">КАВАДИНЬЯ</button>
+        <button class="control-btn" onclick="shootPenalty('super')">СУПЕР УДАР</button>
+        <button class="control-btn" onclick="window.location.href='index.html'">НАЗАД</button>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="js/main.js"></script>
+<script src="js/game.js"></script>
+<script>
+    // --- Инициализация 3D-пенальти ---
+    function initPenalty() {
+        const container = document.getElementById('penalty-viewer');
+
+        // Создание сцены
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x000000);
+
+        // Камера
+        const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+        camera.position.set(0, 5, 15); // Над полем
+
+        // Рендерер
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        container.appendChild(renderer.domElement);
+
+        // Освещение
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        directionalLight.position.set(1, 1, 1).normalize();
+        scene.add(directionalLight);
+
+        // Управление камерой
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.screenSpacePanning = false;
+        controls.minDistance = 5;
+        controls.maxDistance = 50;
+
+        // Создаем поле
+        const fieldGeometry = new THREE.PlaneGeometry(100, 60);
+        const fieldMaterial = new THREE.MeshStandardMaterial({ color: 0x2e8b57, roughness: 0.9 }); // Трава
+        const field = new THREE.Mesh(fieldGeometry, fieldMaterial);
+        field.rotation.x = -Math.PI / 2;
+        field.receiveShadow = true;
+        scene.add(field);
+
+        // Ворота
+        const goalDepth = 2;
+        const goalWidth = 18;
+        const goalHeight = 8;
+
+        // Задняя сетка (упрощённо)
+        const netGeometry = new THREE.PlaneGeometry(goalWidth, goalHeight);
+        const netMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide, wireframe: true });
+        const net = new THREE.Mesh(netGeometry, netMaterial);
+        net.rotation.y = Math.PI / 2;
+        net.position.set(0, goalHeight / 2, -30 + goalDepth / 2 + 0.1);
+        scene.add(net);
+
+        // Стойки ворот
+        const goalPostGeometry = new THREE.CylinderGeometry(0.2, 0.2, goalHeight, 16);
+        const goalPostMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff });
+
+        const post1 = new THREE.Mesh(goalPostGeometry, goalPostMaterial);
+        post1.position.set(-goalWidth / 2, goalHeight / 2, -30);
+        post1.castShadow = true;
+        scene.add(post1);
+
+        const post2 = new THREE.Mesh(goalPostGeometry, goalPostMaterial);
+        post2.position.set(goalWidth / 2, goalHeight / 2, -30);
+        post2.castShadow = true;
+        scene.add(post2);
+
+        // Перекладина
+        const crossbarGeometry = new THREE.CylinderGeometry(0.2, 0.2, goalWidth, 16);
+        const crossbar = new THREE.Mesh(crossbarGeometry, goalPostMaterial);
+        crossbar.rotation.x = Math.PI / 2;
+        crossbar.position.set(0, goalHeight, -30);
+        crossbar.castShadow = true;
+        scene.add(crossbar);
+
+        // Игрок
+        const playerGroup = new THREE.Group();
+
+        // Тело
+        const bodyGeometry = new THREE.BoxGeometry(1, 2, 0.5);
+        const bodyMaterial = new THREE.MeshStandardMaterial({ color: 0x007bff });
+        const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+        body.position.y = 1;
+        body.castShadow = true;
+        playerGroup.add(body);
+
+        // Голова
+        const headGeometry = new THREE.SphereGeometry(0.5, 16, 16);
+        const headMaterial = new THREE.MeshStandardMaterial({ color: 0xffdfcc });
+        const head = new THREE.Mesh(headGeometry, headMaterial);
+        head.position.y = 2.2;
+        head.castShadow = true;
+        playerGroup.add(head);
+
+        // Ноги
+        const legGeometry = new THREE.CylinderGeometry(0.15, 0.15, 1, 16);
+        const legMaterial = new THREE.MeshStandardMaterial({ color: 0x0000ff });
+
+        const leftLeg = new THREE.Mesh(legGeometry, legMaterial);
+        leftLeg.position.set(-0.2, -0.5, 0);
+        leftLeg.castShadow = true;
+        playerGroup.add(leftLeg);
+
+        const rightLeg = new THREE.Mesh(legGeometry, legMaterial);
+        rightLeg.position.set(0.2, -0.5, 0);
+        rightLeg.castShadow = true;
+        playerGroup.add(rightLeg);
+
+        // Руки
+        const armGeometry = new THREE.CylinderGeometry(0.1, 0.1, 1, 16);
+        const armMaterial = new THREE.MeshStandardMaterial({ color: 0x0000ff });
+
+        const leftArm = new THREE.Mesh(armGeometry, armMaterial);
+        leftArm.position.set(-0.6, 0.5, 0);
+        leftArm.rotation.z = Math.PI / 4;
+        leftArm.castShadow = true;
+        playerGroup.add(leftArm);
+
+        const rightArm = new THREE.Mesh(armGeometry, armMaterial);
+        rightArm.position.set(0.6, 0.5, 0);
+        rightArm.rotation.z = -Math.PI / 4;
+        rightArm.castShadow = true;
+        playerGroup.add(rightArm);
+
+        playerGroup.position.set(0, 0, -15);
+        scene.add(playerGroup);
+
+        // Мяч
+        const ballGeometry = new THREE.SphereGeometry(0.3, 32, 32);
+        const ballMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.1 });
+        const ball = new THREE.Mesh(ballGeometry, ballMaterial);
+        ball.position.set(0, 0.3, -13.5);
+        ball.castShadow = true;
+        scene.add(ball);
+
+        // Вратарь
+        const goalkeeperGroup = new THREE.Group();
+
+        // Тело
+        const keeperBodyGeometry = new THREE.BoxGeometry(1, 2, 0.5);
+        const keeperBodyMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+        const keeperBody = new THREE.Mesh(keeperBodyGeometry, keeperBodyMaterial);
+        keeperBody.position.y = 1;
+        keeperBody.castShadow = true;
+        goalkeeperGroup.add(keeperBody);
+
+        // Голова
+        const keeperHeadGeometry = new THREE.SphereGeometry(0.5, 16, 16);
+        const keeperHeadMaterial = new THREE.MeshStandardMaterial({ color: 0xffdfcc });
+        const keeperHead = new THREE.Mesh(keeperHeadGeometry, keeperHeadMaterial);
+        keeperHead.position.y = 2.2;
+        keeperHead.castShadow = true;
+        goalkeeperGroup.add(keeperHead);
+
+        // Ноги
+        const keeperLegGeometry = new THREE.CylinderGeometry(0.15, 0.15, 1, 16);
+        const keeperLegMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+
+        const keeperLeftLeg = new THREE.Mesh(keeperLegGeometry, keeperLegMaterial);
+        keeperLeftLeg.position.set(-0.2, -0.5, 0);
+        keeperLeftLeg.castShadow = true;
+        goalkeeperGroup.add(keeperLeftLeg);
+
+        const keeperRightLeg = new THREE.Mesh(keeperLegGeometry, keeperLegMaterial);
+        keeperRightLeg.position.set(0.2, -0.5, 0);
+        keeperRightLeg.castShadow = true;
+        goalkeeperGroup.add(keeperRightLeg);
+
+        // Руки
+        const keeperArmGeometry = new THREE.CylinderGeometry(0.1, 0.1, 1, 16);
+        const keeperArmMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+
+        const keeperLeftArm = new THREE.Mesh(keeperArmGeometry, keeperArmMaterial);
+        keeperLeftArm.position.set(-0.6, 0.5, 0);
+        keeperLeftArm.rotation.z = Math.PI / 4;
+        keeperLeftArm.castShadow = true;
+        goalkeeperGroup.add(keeperLeftArm);
+
+        const keeperRightArm = new THREE.Mesh(keeperArmGeometry, keeperArmMaterial);
+        keeperRightArm.position.set(0.6, 0.5, 0);
+        keeperRightArm.rotation.z = -Math.PI / 4;
+        keeperRightArm.castShadow = true;
+        goalkeeperGroup.add(keeperRightArm);
+
+        goalkeeperGroup.position.set(0, 0, -29.5);
+        scene.add(goalkeeperGroup);
+
+        // --- Анимационный цикл ---
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // --- Функция удара ---
+        window.shootPenalty = function(type) {
+            alert(`Выполнен удар: ${type}`);
+            // Здесь можно добавить анимацию мяча
+        };
+
+        // --- Адаптивность ---
+        window.addEventListener('resize', function() {
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        });
+    }
+
+    // Инициализируем при загрузке
+    window.addEventListener('DOMContentLoaded', initPenalty);
+</script>
+
+</body>
+</html>
