@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ивенты - FC Web 25</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/screens.css">
+</head>
+<body>
+
+<div id="events-screen" class="screen active">
+    <h1>ИВЕНТЫ</h1>
+
+    <div class="event-banner">
+        <h2>ЗИМНИЙ ИВЕНТ</h2>
+        <p>Специальные скины, награды и бонусы!</p>
+    </div>
+
+    <div class="skins-grid">
+        <div class="skin-card">
+            <p>Messi Neon</p>
+            <button onclick="getSkin('Messi Neon')">ПОЛУЧИТЬ</button>
+        </div>
+        <div class="skin-card">
+            <p>Ronaldo Neon</p>
+            <button onclick="getSkin('Ronaldo Neon')">ПОЛУЧИТЬ</button>
+        </div>
+    </div>
+
+    <div class="code-box">
+        Код: WINTER2025
+    </div>
+
+    <div class="quest-list">
+        <h3>ЗАДАНИЯ</h3>
+        <div class="quest-item">
+            <span>Забей пенальти</span>
+            <button onclick="completeQuest('Забей пенальти')">ВЫПОЛНИТЬ</button>
+        </div>
+        <div class="quest-item">
+            <span>Выиграй 3 матча</span>
+            <button onclick="completeQuest('Выиграй 3 матча')">ВЫПОЛНИТЬ</button>
+        </div>
+    </div>
+
+    <button class="back-btn" onclick="window.location.href='index.html'">НАЗАД</button>
+</div>
+
+<script src="js/main.js"></script>
+<script src="js/game.js"></script>
+
+</body>
+</html>
