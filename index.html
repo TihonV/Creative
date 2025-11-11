@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Футболисты</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Подключаем Three.js -->
+    <script src="js/three.min.js"></script>
+    <!-- Загрузчики для GLTF и FBX -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/loaders/FBXLoader.js"></script>
+    <!-- Управление камерой -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <h1>3D Футболисты</h1>
+    <div class="cards-container">
+        <div class="player-card" data-model="ibrahimovic">
+            <h2>Златан Ибрагимович</h2>
+            <button class="view-btn">Внешний вид</button>
+        </div>
+        <div class="player-card" data-model="messi">
+            <h2>Лионель Месси</h2>
+            <button class="view-btn">Внешний вид</button>
+        </div>
+        <div class="player-card" data-model="neymar">
+            <h2>Неймар</h2>
+            <button class="view-btn">Внешний вид</button>
+        </div>
+        <div class="player-card" data-model="ronaldo">
+            <h2>Криштиану Роналду</h2>
+            <button class="view-btn">Внешний вид</button>
+        </div>
+    </div>
+
+    <!-- Контейнер для 3D-сцены, изначально скрыт -->
+    <div id="model-container" class="model-container">
+        <div id="3d-viewer" class="viewer"></div>
+        <button id="back-btn" class="back-btn">Назад к карточкам</button>
+    </div>
+</div>
+
+<script src="js/main.js"></script>
+
+</body>
+</html>
