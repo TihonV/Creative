@@ -35,7 +35,7 @@ body {
     justify-content: center;
 }
 
-/* Загрузочный экран — только "PRESS" */
+/* Загрузочный экран */
 #start-screen {
     background: url('https://avatars.mds.yandex.net/i?id=24208835363afc86296e4f74d47e2f47071973ea-3986150-images-thumbs&n=13') no-repeat center center;
     background-size: cover;
@@ -60,21 +60,7 @@ body {
     text-transform: uppercase;
 }
 
-/* Главное меню */
-#main-menu {
-    background: url('https://avatars.mds.yandex.net/i?id=dd7e680f962951b4efb697014a748130_l-4449821-images-thumbs&n=13') no-repeat center center;
-    background-size: cover;
-}
-
-.menu-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
+/* Общие элементы */
 .menu-header {
     position: absolute;
     top: 20px;
@@ -241,139 +227,6 @@ body {
     color: #fff;
     font-weight: bold;
     font-size: 1rem;
-}
-
-/* Экран Ивенты */
-#events-screen {
-    background: #000;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    text-align: center;
-}
-
-#events-screen h1 {
-    color: white;
-    margin-bottom: 20px;
-}
-
-.event-banner {
-    background: #111;
-    padding: 20px;
-    border-radius: 8px;
-    max-width: 600px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-.event-banner h2 {
-    color: #00ff00;
-    margin-bottom: 10px;
-}
-
-.event-banner p {
-    color: #ccc;
-    font-size: 0.9rem;
-}
-
-.skins-grid {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin: 30px 0;
-}
-
-.skin-card {
-    background: #222;
-    padding: 15px;
-    border-radius: 8px;
-    width: 150px;
-    text-align: center;
-}
-
-.skin-card p {
-    color: white;
-    margin: 10px 0;
-}
-
-.skin-card button {
-    background: #00ff00;
-    color: black;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background 0.2s;
-}
-
-.skin-card button:hover {
-    background: #00cc00;
-}
-
-.code-box {
-    background: #00ff00;
-    color: black;
-    padding: 8px 20px;
-    border-radius: 4px;
-    font-weight: bold;
-    margin: 20px 0;
-}
-
-.quest-list {
-    max-width: 600px;
-    margin: 30px auto;
-    text-align: left;
-}
-
-.quest-list h3 {
-    color: #00ff00;
-    margin-bottom: 10px;
-}
-
-.quest-item {
-    background: #222;
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.quest-item span {
-    color: white;
-}
-
-.quest-item button {
-    background: #007bff;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.quest-item button:hover {
-    background: #0056b3;
-}
-
-.back-btn {
-    background: transparent;
-    color: white;
-    border: 1px solid #fff;
-    padding: 5px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.8rem;
-    margin-top: 30px;
-}
-
-.back-btn:hover {
-    background: rgba(255,255,255,0.1);
 }
 
 .notification {
