@@ -73,16 +73,62 @@
             transition: width 2s ease;
         }
 
-        /* Главное меню */
-        #main-menu {
+        /* Стартовый экран */
+        #start-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://avatars.mds.yandex.net/i?id=24208835363afc86296e4f74d47e2f47071973ea-3986150-images-thumbs&n=13') no-repeat center center;
+            background-size: cover;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            text-align: center;
+            color: #00ff00;
+            z-index: 999;
+        }
+
+        .start-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .press-text {
+            color: #f5f5dc; /* бежевый цвет */
+            font-size: 2rem;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(245, 245, 220, 0.5); /* полупрозрачность с тенью */
+            opacity: 0.7; /* полупрозрачность */
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* Главное меню */
+        #main-menu {
+            display: none; /* скрыто по умолчанию */
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
+            background: rgba(0, 0, 0, 0.9); /* затемненный фон */
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .menu-content {
             position: relative;
-            z-index: 10;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .header {
@@ -173,33 +219,43 @@
             gap: 10px;
             margin: 20px 0;
             flex-wrap: wrap;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         .menu-button {
-            padding: 5px 10px;
-            background: #007bff;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
             color: white;
-            border: none;
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 4px;
             cursor: pointer;
-            font-size: 0.8rem;
-            transition: background 0.2s;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
         }
 
         .menu-button:hover {
-            background: #0056b3;
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
         }
 
         .play-button {
-            padding: 10px 20px;
+            padding: 15px 30px;
             background: #00ff00;
             color: black;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 1.2rem;
             font-weight: bold;
             transition: background 0.2s;
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         .play-button:hover {
@@ -243,6 +299,10 @@
             z-index: 1000;
             font-weight: bold;
         }
+
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -258,46 +318,55 @@
     </div>
 </div>
 
+<!-- Стартовый экран -->
+<div id="start-screen">
+    <div class="start-content">
+        <h1 class="press-text">PRESS</h1>
+    </div>
+</div>
+
 <!-- Главное меню -->
-<div id="main-menu" class="screen hidden">
-    <!-- Верхняя панель -->
-    <div class="header">
-        <div class="user-info">
-            <img src="https://via.placeholder.com/50" alt="Аватар" class="avatar">
-            <div>
-                <span class="username">Lux</span>
-                <div class="level">5</div>
-                <span class="xp">20/120XP</span>
+<div id="main-menu">
+    <div class="menu-content">
+        <!-- Верхняя панель -->
+        <div class="header">
+            <div class="user-info">
+                <img src="https://via.placeholder.com/50" alt="Аватар" class="avatar">
+                <div>
+                    <span class="username">Lux</span>
+                    <div class="level">5</div>
+                    <span class="xp">20/120XP</span>
+                </div>
+            </div>
+            <div class="game-currency">
+                <span class="currency gold">70,000</span>
+                <span class="currency diamond">2,150</span>
+                <span class="currency green">0</span>
+                <div class="icon-group">
+                    <img src="https://via.placeholder.com/24?text=F" alt="Друзья">
+                    <img src="https://via.placeholder.com/24?text=P" alt="Почта">
+                    <img src="https://via.placeholder.com/24?text=S" alt="Настройки">
+                </div>
             </div>
         </div>
-        <div class="game-currency">
-            <span class="currency gold">70,000</span>
-            <span class="currency diamond">2,150</span>
-            <span class="currency green">0</span>
-            <div class="icon-group">
-                <img src="https://via.placeholder.com/24?text=F" alt="Друзья">
-                <img src="https://via.placeholder.com/24?text=P" alt="Почта">
-                <img src="https://via.placeholder.com/24?text=S" alt="Настройки">
-            </div>
+
+        <!-- Кнопки -->
+        <div class="menu-buttons">
+            <button class="menu-button">QUESTS</button>
+            <button class="menu-button">LEAGUES</button>
+            <button class="menu-button">MARKET</button>
+            <button class="menu-button">EXCHANGE</button>
+            <button class="menu-button">STORE</button>
         </div>
-    </div>
 
-    <!-- Кнопки -->
-    <div class="menu-buttons">
-        <button class="menu-button">QUESTS</button>
-        <button class="menu-button">LEAGUES</button>
-        <button class="menu-button">MARKET</button>
-        <button class="menu-button">EXCHANGE</button>
-        <button class="menu-button">STORE</button>
-    </div>
+        <!-- Кнопка PLAY -->
+        <button class="play-button">PLAY</button>
 
-    <!-- Кнопка PLAY -->
-    <button class="play-button">PLAY</button>
-
-    <!-- Блок "МОЯ КОМАНДА" -->
-    <div class="squad-block">
-        <div class="squad-title">МОЯ КОМАНДА</div>
-        <div class="squad-count">Игроков: 0/11</div>
+        <!-- Блок "МОЯ КОМАНДА" -->
+        <div class="squad-block">
+            <div class="squad-title">МОЯ КОМАНДА</div>
+            <div class="squad-count">Игроков: 0/11</div>
+        </div>
     </div>
 </div>
 
@@ -322,18 +391,20 @@
                 clearInterval(interval);
                 setTimeout(() => {
                     loadingScreen.classList.add('hidden');
-                    showScreen('main-menu');
+                    // Показываем стартовый экран после загрузки
+                    document.getElementById('start-screen').style.display = 'flex';
                 }, 500);
             }
         }, 20);
     }
 
-    function showScreen(screenId) {
-        document.querySelectorAll('.screen').forEach(screen => {
-            screen.classList.add('hidden');
-        });
-        document.getElementById(screenId).classList.remove('hidden');
-    }
+    // Обработчик клика по стартовому экрану
+    document.getElementById('start-screen').addEventListener('click', function() {
+        // Скрываем стартовый экран
+        this.style.display = 'none';
+        // Показываем главное меню
+        document.getElementById('main-menu').style.display = 'block';
+    });
 
     // --- Обработчики кнопок ---
     document.querySelectorAll('.menu-button').forEach(button => {
