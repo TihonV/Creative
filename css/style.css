@@ -7,7 +7,7 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #1a1a1a; /* Тёмный фон */
+    background-color: #1a1a1a;
     color: #ffffff;
     padding: 20px;
 }
@@ -21,44 +21,159 @@ h1 {
     text-align: center;
     margin-bottom: 2rem;
     color: #f0f0f0;
+    font-size: 2.5rem;
+    letter-spacing: 1px;
 }
 
 .cards-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    display: flex;
+    justify-content: center;
     gap: 20px;
+    flex-wrap: wrap;
     margin-bottom: 2rem;
 }
 
 .player-card {
-    background-color: #2c2c2c; /* Светло-серый фон карточки */
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    width: 250px;
+    height: 350px;
+    position: relative;
+    cursor: pointer;
+}
+
+.card-frame {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    transition: transform 0.2s, background-color 0.2s;
+    align-items: center;
+    padding: 10px;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.2s;
 }
 
-.player-card:hover {
-    background-color: #3a3a3a;
-    transform: translateY(-5px);
+.card-frame:hover {
+    transform: scale(1.03);
 }
 
-.player-card h2 {
-    margin-bottom: 1rem;
-    color: #f0f0f0;
+/* Цвета рамок */
+.frame-blue {
+    background: linear-gradient(135deg, #1e3c72, #2a52be);
+}
+.frame-pink {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+}
+.frame-green {
+    background: linear-gradient(135deg, #3cb371, #2e8b57);
+}
+.frame-gold {
+    background: linear-gradient(135deg, #ffd700, #daa520);
 }
 
+/* Рейтинг и позиция */
+.rating {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 0 5px rgba(0,0,0,0.8);
+}
+
+.position {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: white;
+    background: rgba(0,0,0,0.5);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* Изображение игрока */
+.player-img {
+    width: 180px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-top: 40px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+/* Имя игрока */
+.name {
+    margin-top: 10px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    text-shadow: 0 0 3px rgba(0,0,0,0.8);
+}
+
+/* Статистика */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    margin-top: 10px;
+    width: 100%;
+    padding: 5px 0;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.7rem;
+    color: white;
+}
+
+.stat span:first-child {
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+
+/* Флаг и формация */
+.flag img {
+    width: 20px;
+    height: 15px;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    border-radius: 2px;
+}
+
+.formation {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: white;
+    background: rgba(0,0,0,0.5);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* Кнопка "Внешний вид" */
 .view-btn {
+    width: 100%;
+    padding: 8px 10px;
     background-color: #007bff;
     color: white;
     border: none;
-    padding: 10px 15px;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-top: 10px;
     transition: background-color 0.2s;
 }
 
@@ -68,11 +183,11 @@ h1 {
 
 /* Стили для 3D-контейнера */
 .model-container {
-    display: none; /* Изначально скрыт */
+    display: none;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    height: 70vh; /* Высота 70% от высоты окна */
+    height: 70vh;
     position: relative;
 }
 
@@ -81,7 +196,7 @@ h1 {
     height: 100%;
     border-radius: 8px;
     overflow: hidden;
-    background-color: #000; /* Чёрный фон для сцены */
+    background-color: #000;
 }
 
 .back-btn {
