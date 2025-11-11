@@ -1,4 +1,4 @@
-// --- Инициализация переменных ---
+// --- Глобальные переменные ---
 let scene, camera, renderer, controls;
 let currentModel = null;
 const container = document.getElementById('3d-viewer');
@@ -6,15 +6,22 @@ const modelContainer = document.getElementById('model-container');
 const cardsContainer = document.querySelector('.cards-container');
 const backBtn = document.getElementById('back-btn');
 
-// --- Загрузка и отображение модели ---
+// --- Загрузка и отображение модели (только GLB) ---
 function loadAndDisplayModel(modelName) {
     // Очистка предыдущей сцены
     if (currentModel) {
         scene.remove(currentModel);
+        currentModel = null;
     }
     if (renderer) {
         renderer.dispose();
+        renderer = null;
     }
+    if (controls) {
+        controls.dispose();
+        controls = null;
+    }
+
     // Очистка контейнера
     while (container.firstChild) {
         container.removeChild(container.firstChild);
@@ -24,17 +31,17 @@ function loadAndDisplayModel(modelName) {
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0x000000); // Чёрный фон
 
-    // Создание камеры
+    // Камера
     camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
     camera.position.z = 5;
 
-    // Создание рендера
-    renderer = new THREE.WebGLRenderer({ antialias: true }); // Включаем сглаживание
+    // Рендерер
+    renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
-    renderer.setPixelRatio(window.devicePixelRatio); // Для ретины
+    renderer.setPixelRatio(window.devicePixelRatio);
     container.appendChild(renderer.domElement);
 
-    // Свет
+    // Освещение
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
     scene.add(ambientLight);
 
@@ -42,94 +49,85 @@ function loadAndDisplayModel(modelName) {
     directionalLight.position.set(1, 1, 1).normalize();
     scene.add(directionalLight);
 
-    // Управление камерой (OrbitControls)
+    // Управление камерой
     controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true; // Плавное вращение
+    controls.enableDamping = true;
     controls.dampingFactor = 0.05;
     controls.screenSpacePanning = false;
     controls.minDistance = 1;
     controls.maxDistance = 10;
 
-    // Определение пути к модели и выбор загрузчика
-    let modelPath = `models/${modelName}.glb`; // Пытаемся загрузить GLB
-    let loader = new THREE.GLTFLoader();
+    // Путь к модели
+    const modelPath = `models/${modelName}.glb`;
 
-    // Если вы хотите, чтобы приоритет был у FBX, поменяйте местами:
-    // let modelPath = `models/${modelName}.fbx`;
-    // let loader = new THREE.FBXLoader(); // Убедитесь, что подключили FBXLoader.js
+    // Загрузчик GLTF (работает с GLB)
+    const loader = new THREE.GLTFLoader();
 
-    // Попробовать загрузить GLB
+    console.log(`Загрузка модели: ${modelPath}`);
+
     loader.load(
         modelPath,
         (gltf) => {
-            console.log(`Модель ${modelName}.glb загружена.`);
+            console.log(`✅ Модель ${modelName}.glb успешно загружена.`);
             currentModel = gltf.scene;
+
+            // Центрируем и масштабируем модель
+            centerAndScaleModel(currentModel);
+
+            // Добавляем в сцену
             scene.add(currentModel);
 
-            // Центрирование и масштабирование модели
-            centerAndScaleModel(currentModel);
+            // Запускаем анимацию (если есть)
+            if (gltf.animations && gltf.animations.length > 0) {
+                const mixer = new THREE.AnimationMixer(currentModel);
+                const action = mixer.clipAction(gltf.animations[0]);
+                action.play();
+                // Анимация будет обновляться в animate()
+                window.mixer = mixer; // Сохраняем для анимации
+            }
+
         },
         (progress) => {
-            console.log(`Загрузка ${modelName}.glb: ${(progress.loaded / progress.total * 100 ).toFixed(2)}%`);
+            console.log(`⏳ Загрузка ${modelName}.glb: ${(progress.loaded / progress.total * 100).toFixed(2)}%`);
         },
         (error) => {
-            console.error(`Ошибка загрузки ${modelName}.glb:`, error);
-            // Если GLB не загрузилась, пробуем FBX
-            tryLoadFBX(modelName);
-        }
-    );
-}
-
-function tryLoadFBX(modelName) {
-    console.log(`Пробуем загрузить ${modelName}.fbx...`);
-    const fbxLoader = new THREE.FBXLoader();
-    const fbxPath = `models/${modelName}.fbx`;
-
-    fbxLoader.load(
-        fbxPath,
-        (object) => {
-            console.log(`Модель ${modelName}.fbx загружена.`);
-            currentModel = object;
-            scene.add(currentModel);
-
-            // Центрирование и масштабирование модели
-            centerAndScaleModel(currentModel);
-        },
-        (progress) => {
-            console.log(`Загрузка ${modelName}.fbx: ${(progress.loaded / progress.total * 100 ).toFixed(2)}%`);
-        },
-        (error) => {
-            console.error(`Ошибка загрузки ${modelName}.fbx:`, error);
-            alert(`Не удалось загрузить модель для ${modelName}. Ни GLB, ни FBX файл не найдены или повреждены.`);
+            console.error(`❌ Ошибка загрузки модели ${modelName}.glb:`, error);
+            alert(`Не удалось загрузить модель "${modelName}". Убедитесь, что файл models/${modelName}.glb существует и корректен.`);
         }
     );
 }
 
 // --- Центрирование и масштабирование модели ---
 function centerAndScaleModel(model) {
+    if (!model) return;
+
     const box = new THREE.Box3().setFromObject(model);
     const center = box.getCenter(new THREE.Vector3());
     const size = box.getSize(new THREE.Vector3()).length();
 
-    // Центрируем модель
-    model.position.x += (model.position.x - center.x);
-    model.position.y += (model.position.y - center.y);
-    model.position.z += (model.position.z - center.z);
+    // Центрируем модель относительно начала координат
+    model.position.sub(center);
 
-    // Масштабируем модель, чтобы она помещалась в сцену
-    const scale = 2 / size; // 2 - желаемый размер модели
+    // Масштабируем модель под сцену
+    const scale = 2 / size; // Коэффициент 2 — можно изменить под вашу модель
     model.scale.set(scale, scale, scale);
 
-    // Позиционируем камеру для лучшего обзора
-    camera.position.z = size * 1.5; // Примерное расстояние
-    controls.update(); // Обновляем controls после изменения камеры
+    // Настройка камеры
+    camera.position.z = size * 1.5;
+    controls.update(); // Обновляем управление после изменения камеры
 }
 
 // --- Анимационный цикл ---
 function animate() {
     requestAnimationFrame(animate);
-    if (controls) controls.update(); // Обновляем управление
-    if (renderer && scene && camera) renderer.render(scene, camera);
+    if (controls) controls.update();
+    if (renderer && scene && camera) {
+        renderer.render(scene, camera);
+    }
+    // Обновляем анимацию, если есть
+    if (window.mixer) {
+        window.mixer.update(0.016); // ~60 FPS
+    }
 }
 animate(); // Запускаем цикл
 
@@ -138,7 +136,6 @@ document.querySelectorAll('.view-btn').forEach(button => {
     button.addEventListener('click', function() {
         const card = this.closest('.player-card');
         const modelName = card.getAttribute('data-model');
-        console.log(`Загрузка модели: ${modelName}`);
         loadAndDisplayModel(modelName);
         // Показываем 3D-контейнер, скрываем карточки
         modelContainer.style.display = 'flex';
@@ -149,7 +146,7 @@ document.querySelectorAll('.view-btn').forEach(button => {
 backBtn.addEventListener('click', function() {
     // Скрываем 3D-контейнер, показываем карточки
     modelContainer.style.display = 'none';
-    cardsContainer.style.display = 'grid'; // Возвращаем к grid-раскладке
+    cardsContainer.style.display = 'flex'; // Возвращаем к flex-раскладке
 
     // Очищаем сцену и ресурсы при возврате
     if (currentModel) {
@@ -168,6 +165,8 @@ backBtn.addEventListener('click', function() {
     while (container.firstChild) {
         container.removeChild(container.firstChild);
     }
+    // Удаляем аниматор
+    window.mixer = null;
 });
 
 // --- Адаптивность ---
