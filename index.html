@@ -16,28 +16,20 @@
             color: #fff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow-x: hidden;
-        }
-
-        .screen {
+            background: url('https://avatars.mds.yandex.net/i?id=10d21f8f0393d4612d4dbf1165969fb57b95112e-5305969-images-thumbs&n=13') no-repeat center center;
+            background-size: cover;
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-            transition: opacity 0.5s ease;
-        }
-
-        .hidden {
-            display: none !important;
         }
 
         /* Загрузочный экран */
         #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: url('https://avatars.mds.yandex.net/i?id=24208835363afc86296e4f74d47e2f47071973ea-3986150-images-thumbs&n=13') no-repeat center center;
             background-size: cover;
             display: flex;
@@ -46,6 +38,7 @@
             justify-content: center;
             text-align: center;
             color: #00ff00;
+            z-index: 1000;
         }
 
         .loading-content {
@@ -80,25 +73,27 @@
 
         /* Главное меню */
         #main-menu {
-            background: url('https://avatars.mds.yandex.net/i?id=10d21f8f0393d4612d4dbf1165969fb57b95112e-5305969-images-thumbs&n=13') no-repeat center center;
-            background-size: cover;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-            gap: 20px;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            z-index: 10;
         }
 
         .header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px 20px;
+            background: rgba(0,0,0,0.7);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            width: 100%;
-            max-width: 800px;
-            padding: 10px;
-            background: rgba(0,0,0,0.7);
-            border-radius: 8px;
+            z-index: 100;
         }
 
         .user-info {
@@ -115,15 +110,10 @@
             border: 2px solid #00ff00;
         }
 
-        .user-stats {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
         .username {
             font-weight: bold;
             color: #00ff00;
+            font-size: 1.2rem;
         }
 
         .level {
@@ -164,506 +154,221 @@
             color: #00ff00;
         }
 
+        .icon-group {
+            display: flex;
+            gap: 10px;
+        }
+
         .icon-group img {
             width: 24px;
             height: 24px;
-            margin-left: 10px;
             cursor: pointer;
         }
 
-        .menu-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            width: 100%;
-            max-width: 800px;
-        }
-
-        .menu-button {
-            padding: 10px 20px;
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background 0.2s;
-        }
-
-        .menu-button:hover {
-            background: #0056b3;
-        }
-
-        .play-button {
-            padding: 15px 40px;
-            background: #00ff00;
-            color: black;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1.5rem;
-            font-weight: bold;
-            transition: background 0.2s;
-        }
-
-        .play-button:hover {
-            background: #00cc00;
-        }
-
-        /* Экран выбора режима */
-        #mode-select {
-            background: #000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        #mode-select h2 {
-            font-size: 2rem;
-            color: #00ff00;
-        }
-
-        .mode-buttons {
-            display: flex;
-            gap: 20px;
-        }
-
-        .mode-button {
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .mode-button:hover {
-            background: #0056b3;
-        }
-
-        /* Экран 3D-пенальти */
-        #penalty-screen {
-            background: url('https://avatars.mds.yandex.net/i?id=24208835363afc86296e4f74d47e2f47071973ea-3986150-images-thumbs&n=13') no-repeat center center;
-            background-size: cover;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .penalty-header {
+        .main-content {
             display: flex;
             justify-content: space-between;
+            align-items: flex-start;
             width: 100%;
-            padding: 10px;
-            background: rgba(0,0,0,0.7);
-            border-radius: 8px;
-        }
-
-        .scoreboard {
-            display: flex;
+            padding: 20px;
             gap: 20px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #fff;
+            margin-top: 60px;
+            flex-wrap: wrap;
         }
 
-        .player-info {
+        .left-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 200px;
+        }
+
+        .menu-item {
             display: flex;
             align-items: center;
             gap: 10px;
-            color: #fff;
-        }
-
-        .player-info img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-        }
-
-        .penalty-viewer {
-            width: 100%;
-            height: 400px;
-            background: #000;
+            padding: 10px;
+            background: rgba(255,255,255,0.1);
             border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .penalty-controls {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .penalty-button {
-            padding: 10px 20px;
-            background: #333;
-            color: white;
-            border: none;
-            border-radius: 50px;
             cursor: pointer;
-            font-size: 0.9rem;
             transition: background 0.2s;
         }
 
-        .penalty-button:hover {
-            background: #555;
+        .menu-item:hover {
+            background: rgba(255,255,255,0.2);
         }
 
-        /* Экран карточек игроков */
-        #players-screen {
-            background: #000;
+        .menu-item img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .menu-item span {
+            font-size: 0.9rem;
+        }
+
+        .center-panel {
             display: flex;
             flex-direction: column;
-            align-items: center;
             gap: 20px;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .event-block {
+            background: linear-gradient(135deg, #00aa00, #007700);
             padding: 20px;
-        }
-
-        .players-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            width: 100%;
-        }
-
-        .player-card {
-            background: rgba(255,255,255,0.1);
             border-radius: 8px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.2s;
             position: relative;
-        }
-
-        .player-card:hover {
-            transform: scale(1.05);
-        }
-
-        .player-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .card-info {
-            padding: 10px;
-            background: #000;
-            color: white;
-            text-align: center;
-        }
-
-        .card-info span:first-child {
-            font-weight: bold;
-            color: #00ff00;
-        }
-
-        .view-3d {
-            width: 100%;
-            padding: 5px;
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
             cursor: pointer;
-            font-size: 0.8rem;
         }
 
-        /* Экран клубов */
-        #clubs-screen {
-            background: #000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            padding: 20px;
-        }
-
-        .club-panel {
-            display: flex;
-            gap: 20px;
-            width: 100%;
-            max-width: 1000px;
-        }
-
-        .club-stats {
-            background: rgba(0,0,0,0.7);
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-            width: 300px;
-        }
-
-        .club-stats img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
+        .event-block h3 {
+            color: white;
             margin-bottom: 10px;
         }
 
-        .club-stats span {
-            display: block;
-            margin: 5px 0;
-            color: #fff;
-        }
-
-        .stat-circle {
+        .event-image {
             width: 100px;
             height: 100px;
-            border: 5px solid #007bff;
+            margin: 0 auto;
             border-radius: 50%;
+            background: rgba(255,255,255,0.2);
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 10px auto;
+            font-size: 2rem;
+            color: white;
         }
 
-        .stat-circle span {
-            font-weight: bold;
-            color: #007bff;
-        }
-
-        .tournament-panel {
-            background: rgba(0,0,0,0.7);
-            padding: 20px;
-            border-radius: 8px;
-            flex: 1;
-        }
-
-        .tournament-panel h3 {
-            color: #00ff00;
-            margin-bottom: 10px;
-        }
-
-        .tournament-panel label {
-            display: block;
-            margin: 10px 0;
-            color: #fff;
-        }
-
-        .club-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin: 10px 0;
-        }
-
-        .club-grid img {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
+        .event-block .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: white;
+            font-size: 1.5rem;
             cursor: pointer;
         }
 
-        .search-status {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            margin-top: 20px;
-            text-align: center;
+        .squad-block {
+            background: linear-gradient(135deg, #0000aa, #000077);
+            padding: 20px;
+            border-radius: 8px;
+            cursor: pointer;
         }
 
-        .search-status span:first-child {
-            color: #00ff00;
+        .squad-block h3 {
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .squad-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .formation {
+            color: white;
             font-weight: bold;
         }
 
-        .search-status span:last-child {
+        .rating {
+            background: #ff0000;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .club-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .cost {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .cost img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .events-row {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .event-card {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .event-card h4 {
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .event-card p {
             color: #ccc;
             font-size: 0.8rem;
         }
 
-        .search-status button {
-            padding: 5px 10px;
-            background: #6c757d;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        /* Экран ивентов */
-        #events-screen {
-            background: #000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            padding: 20px;
-        }
-
-        .event-banner {
-            position: relative;
+        .event-card img {
             width: 100%;
-            max-width: 800px;
-            background: #111;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .event-banner img {
-            width: 100%;
-            height: 200px;
+            height: 100px;
             object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 10px;
         }
 
-        .event-info {
-            position: absolute;
-            top: 0;
+        .footer-nav {
+            position: fixed;
+            bottom: 0;
             left: 0;
             width: 100%;
-            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            z-index: 100;
+        }
+
+        .nav-item {
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            background: rgba(0,0,0,0.5);
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .event-info h3 {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            color: #00ff00;
-        }
-
-        .neon-players {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            width: 100%;
-        }
-
-        .neon-player {
-            background: rgba(255,255,255,0.1);
-            border-radius: 8px;
-            padding: 10px;
-            text-align: center;
-            width: 150px;
-        }
-
-        .neon-player img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 10px;
-        }
-
-        .neon-player span:first-child {
-            font-weight: bold;
-            color: #00ff00;
-        }
-
-        .neon-player button {
-            width: 100%;
-            padding: 5px;
-            background: #00ff00;
-            color: black;
-            border: none;
-            border-radius: 4px;
+            gap: 5px;
             cursor: pointer;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-
-        .code-box {
-            background: #00ff00;
-            color: black;
             padding: 10px;
-            border-radius: 8px;
-            font-weight: bold;
-            margin-top: 20px;
+            transition: background 0.2s;
         }
 
-        .quest-list {
-            width: 100%;
-            max-width: 600px;
-        }
-
-        .quest-list h3 {
-            color: #00ff00;
-            margin-bottom: 10px;
-        }
-
-        .quest-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
+        .nav-item:hover {
             background: rgba(255,255,255,0.1);
-            border-radius: 8px;
-            margin: 5px 0;
         }
 
-        .quest-item span {
-            color: #fff;
-            font-weight: bold;
+        .nav-item img {
+            width: 24px;
+            height: 24px;
         }
 
-        .quest-item button {
-            padding: 5px 10px;
-            background: #007bff;
+        .nav-item span {
+            font-size: 0.8rem;
             color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        /* Система команды */
-        .my-squad {
-            background: rgba(0,0,0,0.7);
-            padding: 20px;
-            border-radius: 8px;
-            width: 100%;
-            max-width: 800px;
-            margin-top: 20px;
-        }
-
-        .squad-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .squad-header h3 {
-            color: #00ff00;
-        }
-
-        .squad-players {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .squad-player {
-            background: #333;
-            padding: 10px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .squad-player img {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-        }
-
-        .squad-player span {
-            color: #fff;
         }
 
         .notification {
@@ -682,7 +387,7 @@
 <body>
 
 <!-- Загрузочный экран -->
-<div id="loading-screen" class="screen">
+<div id="loading-screen">
     <div class="loading-content">
         <h1 class="loading-text">ЗАГРУЗКА</h1>
         <p>GETTING WARMED UP...</p>
@@ -694,261 +399,121 @@
 
 <!-- Главное меню -->
 <div id="main-menu" class="screen hidden">
+    <!-- Верхняя панель -->
     <div class="header">
         <div class="user-info">
             <img src="https://via.placeholder.com/50" alt="Аватар" class="avatar">
-            <div class="user-stats">
-                <span class="username">Lux</span>
-                <span class="level">5</span>
-                <span class="xp">20/120XP</span>
+            <div>
+                <span class="username">JerryTheQuad</span>
+                <div class="level">5</div>
+                <span class="xp">70 / 120 ОПЫТ</span>
             </div>
         </div>
         <div class="game-currency">
-            <span class="currency gold">70,000</span>
-            <span class="currency diamond">2,150</span>
+            <span class="currency gold">59 078</span>
+            <span class="currency diamond">220</span>
             <span class="currency green">0</span>
-            <span class="icon-group">
-                <img src="https://via.placeholder.com/24" alt="Друзья">
-                <img src="https://via.placeholder.com/24" alt="Почта">
-                <img src="https://via.placeholder.com/24" alt="Настройки">
-            </span>
-        </div>
-    </div>
-
-    <div class="menu-buttons">
-        <button class="menu-button" id="btn-quests">QUESTS</button>
-        <button class="menu-button" id="btn-leagues">LEAGUES</button>
-        <button class="menu-button" id="btn-market">MARKET</button>
-        <button class="menu-button" id="btn-exchange">EXCHANGE</button>
-        <button class="menu-button" id="btn-store">STORE</button>
-    </div>
-
-    <button class="play-button" id="btn-play">PLAY</button>
-
-    <!-- Система моей команды -->
-    <div class="my-squad">
-        <div class="squad-header">
-            <h3>МОЯ КОМАНДА</h3>
-            <span>Игроков: <span id="squad-count">0</span>/11</span>
-        </div>
-        <div class="squad-players" id="squad-players">
-            <!-- Игроки будут добавляться сюда -->
-        </div>
-    </div>
-</div>
-
-<!-- Экран выбора режима -->
-<div id="mode-select" class="screen hidden">
-    <h2>Выберите режим</h2>
-    <div class="mode-buttons">
-        <button class="mode-button" id="btn-penalty">ПЕНАЛЬТИ</button>
-        <button class="mode-button" id="btn-simulation">СИМУЛЯЦИЯ</button>
-    </div>
-    <button class="menu-button" id="btn-back-to-menu">НАЗАД</button>
-</div>
-
-<!-- Экран 3D-пенальти -->
-<div id="penalty-screen" class="screen hidden">
-    <div class="penalty-header">
-        <div class="scoreboard">
-            <span>MCI 3 - 4 PSG</span>
-            <span>PENALTIES</span>
-        </div>
-        <div class="player-info">
-            <span>Vinícius Jr.</span>
-            <img src="https://via.placeholder.com/40" alt="Игрок">
-        </div>
-    </div>
-    <div id="penalty-viewer" class="penalty-viewer"></div>
-    <div class="penalty-controls">
-        <button class="penalty-button" id="btn-quiet">QUIET</button>
-        <button class="penalty-button" id="btn-cavadinha">CAVADINHA</button>
-        <button class="penalty-button" id="btn-replace">TO REPLACE</button>
-        <button class="penalty-button" id="btn-super-kick">SUPER KICK</button>
-    </div>
-    <button class="menu-button" id="btn-penalty-back">НАЗАД</button>
-</div>
-
-<!-- Экран карточек игроков -->
-<div id="players-screen" class="screen hidden">
-    <h2>КАРТОЧКИ ИГРОКОВ</h2>
-    <div class="players-grid">
-        <!-- Пример карточки -->
-        <div class="player-card" data-player="cruyff">
-            <img src="https://via.placeholder.com/200?text=Cruyff" alt="Cruyff">
-            <div class="card-info">
-                <span>109 CAM</span>
-                <span>Cruyff</span>
-            </div>
-            <button class="view-3d">3D Вид</button>
-            <button class="choose-btn">CHOOSE</button>
-        </div>
-        <div class="player-card" data-player="casillas">
-            <img src="https://via.placeholder.com/200?text=Casillas" alt="Casillas">
-            <div class="card-info">
-                <span>109 GK</span>
-                <span>Casillas</span>
-            </div>
-            <button class="view-3d">3D Вид</button>
-            <button class="choose-btn">CHOOSE</button>
-        </div>
-        <div class="player-card" data-player="bale">
-            <img src="https://via.placeholder.com/200?text=Bale" alt="Bale">
-            <div class="card-info">
-                <span>109 RW</span>
-                <span>Bale</span>
-            </div>
-            <button class="view-3d">3D Вид</button>
-            <button class="choose-btn">CHOOSE</button>
-        </div>
-        <!-- Добавьте больше карточек -->
-    </div>
-    <button class="menu-button" id="btn-players-back">НАЗАД</button>
-</div>
-
-<!-- Экран клубов -->
-<div id="clubs-screen" class="screen hidden">
-    <h2>LEAGUE</h2>
-    <div class="club-panel">
-        <div class="club-stats">
-            <img src="https://via.placeholder.com/100?text=FC+Mobile" alt="Клуб">
-            <span>FC Mobile</span>
-            <span>63/100</span>
-            <span>99</span>
-            <div class="stat-circle">
-                <span>WIN 75%</span>
-            </div>
-            <span>FANS 8,500,000</span>
-            <span>CUPS 9,500,000</span>
-            <span>SEASON POINTS 250,000</span>
-        </div>
-        <div class="tournament-panel">
-            <h3>LEAGUE TOURNAMENT</h3>
-            <label>
-                <input type="checkbox" checked> Automatically sign up for the league tournament.
-            </label>
-            <h4>SELECTED:</h4>
-            <div class="club-grid">
-                <img src="https://via.placeholder.com/60?text=PSG" alt="PSG">
-                <img src="https://via.placeholder.com/60?text=Man+City" alt="Man City">
-                <img src="https://via.placeholder.com/60?text=Liverpool" alt="Liverpool">
-                <img src="https://via.placeholder.com/60?text=Chelsea" alt="Chelsea">
-                <img src="https://via.placeholder.com/60?text=Tottenham" alt="Tottenham">
-                <img src="https://via.placeholder.com/60?text=Real+Madrid" alt="Real Madrid">
-                <img src="https://via.placeholder.com/60?text=Atletico" alt="Atletico">
-                <img src="https://via.placeholder.com/60?text=Juventus" alt="Juventus">
-                <img src="https://via.placeholder.com/60?text=Dortmund" alt="Dortmund">
-                <img src="https://via.placeholder.com/60?text=Napoli" alt="Napoli">
-                <img src="https://via.placeholder.com/60?text=Roma" alt="Roma">
-                <img src="https://via.placeholder.com/60?text=Barca" alt="Barcelona">
-            </div>
-            <div class="search-status">
-                <span>FINDING OPPONENT</span>
-                <span>Searching for a match...</span>
-                <button>CANCEL</button>
+            <div class="icon-group">
+                <img src="https://via.placeholder.com/24?text=M" alt="Почта">
+                <img src="https://via.placeholder.com/24?text=F" alt="Друзья">
+                <img src="https://via.placeholder.com/24?text=G" alt="Настройки">
             </div>
         </div>
     </div>
-    <button class="menu-button" id="btn-clubs-back">НАЗАД</button>
-</div>
 
-<!-- Экран ивентов -->
-<div id="events-screen" class="screen hidden">
-    <h2>EVENTS</h2>
-    <div class="event-banner">
-        <img src="https://via.placeholder.com/800x200?text=NEON+EVENT" alt="Neon Event">
-        <div class="event-info">
-            <h3>Choose Your NEON Player</h3>
-            <div class="neon-players">
-                <div class="neon-player">
-                    <img src="https://via.placeholder.com/100?text=Charlton" alt="Charlton">
-                    <span>107 CAM</span>
-                    <span>Charlton</span>
-                    <button class="neon-choose" data-player="charlton">CHOOSE</button>
+    <!-- Основной контент -->
+    <div class="main-content">
+        <!-- Левая панель -->
+        <div class="left-panel">
+            <div class="menu-item">
+                <img src="https://via.placeholder.com/24?text=I" alt="Инфо">
+                <span>Инфо</span>
+            </div>
+            <div class="menu-item">
+                <img src="https://via.placeholder.com/24?text=E" alt="Ежедневный вход">
+                <span>ЕЖЕДНЕВНЫЙ ВХОД</span>
+            </div>
+            <div class="menu-item">
+                <img src="https://via.placeholder.com/24?text=S" alt="Звезда">
+                <span>ЗВЕЗД. АБОН.</span>
+            </div>
+        </div>
+
+        <!-- Центральная панель -->
+        <div class="center-panel">
+            <!-- Блок "НОВЫЕ НАЧАЛА" -->
+            <div class="event-block">
+                <h3>НОВЫЕ НАЧАЛА</h3>
+                <div class="event-image">⚽</div>
+                <div class="event-block .close">×</div>
+            </div>
+
+            <!-- Блок "МОЯ КОМАНДА" -->
+            <div class="squad-block">
+                <h3>МОЯ КОМАНДА</h3>
+                <div class="squad-info">
+                    <span class="formation">4-3-3 АТАКА</span>
+                    <div class="rating">82</div>
                 </div>
-                <div class="neon-player">
-                    <img src="https://via.placeholder.com/100?text=Maradona" alt="Maradona">
-                    <span>107 CAM</span>
-                    <span>Maradona</span>
-                    <button class="neon-choose" data-player="maradona">CHOOSE</button>
-                </div>
-                <div class="neon-player">
-                    <img src="https://via.placeholder.com/100?text=Hakimi" alt="Hakimi">
-                    <span>106 RB</span>
-                    <span>Hakimi</span>
-                    <button class="neon-choose" data-player="hakimi">CHOOSE</button>
+                <div class="squad-info">
+                    <img src="https://via.placeholder.com/50?text=КЛУБ" alt="Клуб" class="club-logo">
+                    <div class="cost">
+                        <span>5 147 300</span>
+                        <img src="https://via.placeholder.com/20?text=F" alt="FIFA">
+                    </div>
                 </div>
             </div>
-            <div class="code-box">
-                <span>CODE: NEON</span>
+
+            <!-- Строка событий -->
+            <div class="events-row">
+                <div class="event-card">
+                    <h4>СОБЫТИЯ LIVE</h4>
+                    <p>Играйте, чтобы получить награды</p>
+                    <img src="https://via.placeholder.com/100?text=LIVE" alt="Live">
+                </div>
+                <div class="event-card">
+                    <h4>DIVISION RIVALS</h4>
+                    <p>Играйте против других игроков</p>
+                    <img src="https://via.placeholder.com/100?text=RIVALS" alt="Rivals">
+                </div>
             </div>
         </div>
     </div>
-    <div class="quest-list">
-        <h3>ЗАДАНИЯ</h3>
-        <div class="quest-item">
-            <span>🔥 Забей пенальти</span>
-            <button id="btn-start-penalty-quest">НАЧАТЬ</button>
+
+    <!-- Нижняя панель навигации -->
+    <div class="footer-nav">
+        <div class="nav-item" id="btn-quests">
+            <img src="https://via.placeholder.com/24?text=Q" alt="Квесты">
+            <span>КВЕСТЫ</span>
         </div>
-        <div class="quest-item">
-            <span>🏆 Выиграй матч</span>
-            <button>НАЧАТЬ</button>
+        <div class="nav-item" id="btn-leagues">
+            <img src="https://via.placeholder.com/24?text=L" alt="Лиги">
+            <span>ЛИГИ</span>
         </div>
-        <div class="quest-item">
-            <span>💎 Собери 1000 бриллиантов</span>
-            <button>НАЧАТЬ</button>
+        <div class="nav-item" id="btn-market">
+            <img src="https://via.placeholder.com/24?text=M" alt="Рынок">
+            <span>РЫНОК</span>
+        </div>
+        <div class="nav-item" id="btn-exchange">
+            <img src="https://via.placeholder.com/24?text=E" alt="Обмен">
+            <span>ОБМЕН</span>
+        </div>
+        <div class="nav-item" id="btn-store">
+            <img src="https://via.placeholder.com/24?text=S" alt="Магазин">
+            <span>МАГАЗИН</span>
         </div>
     </div>
-    <button class="menu-button" id="btn-events-back">НАЗАД</button>
 </div>
 
 <script>
-    // --- Глобальные переменные ---
-    let gameData = {
-        level: 5,
-        exp: 20,
-        coins: 70000,
-        gems: 2150,
-        squad: [],
-        teamName: "DarthTeam",
-        formation: "4-3-3 Защитная",
-        rating: 216,
-        totalRating: 540
-    };
+    // --- Ждём загрузки DOM ---
+    document.addEventListener('DOMContentLoaded', function () {
+        console.log("🎮 FC Web 25 запущена!");
 
-    // --- Инициализация игры ---
-    function initGame() {
-        loadGame();
-        updateUI();
-    }
+        // --- Запускаем загрузку ---
+        startLoading();
+    });
 
-    function loadGame() {
-        const saved = localStorage.getItem('fcWeb25');
-        if (saved) {
-            Object.assign(gameData, JSON.parse(saved));
-        }
-    }
-
-    function saveGame() {
-        localStorage.setItem('fcWeb25', JSON.stringify(gameData));
-    }
-
-    function updateUI() {
-        document.getElementById('squad-count').textContent = gameData.squad.length;
-        const squadPlayers = document.getElementById('squad-players');
-        squadPlayers.innerHTML = '';
-        gameData.squad.forEach(player => {
-            const playerElement = document.createElement('div');
-            playerElement.className = 'squad-player';
-            playerElement.innerHTML = `
-                <img src="https://via.placeholder.com/30?text=${player.name}" alt="${player.name}">
-                <span>${player.name} ${player.rating}</span>
-            `;
-            squadPlayers.appendChild(playerElement);
-        });
-    }
-
-    // --- Загрузка ---
     function startLoading() {
         const loadingScreen = document.getElementById('loading-screen');
         const progress = document.getElementById('progress');
@@ -962,7 +527,6 @@
                 setTimeout(() => {
                     loadingScreen.classList.add('hidden');
                     showScreen('main-menu');
-                    initGame();
                 }, 500);
             }
         }, 20);
@@ -975,168 +539,44 @@
         document.getElementById(screenId).classList.remove('hidden');
     }
 
-    // --- Обработчики событий ---
-    document.addEventListener('DOMContentLoaded', function () {
-        console.log("🎮 FC Web 25 запущена!");
-
-        // Запускаем загрузку
-        startLoading();
-
-        // Обработчики кнопок главного меню
-        document.getElementById('btn-play').addEventListener('click', () => {
-            showScreen('mode-select');
-        });
-
-        document.getElementById('btn-quests').addEventListener('click', () => {
-            showScreen('events-screen');
-        });
-
-        document.getElementById('btn-leagues').addEventListener('click', () => {
-            showScreen('clubs-screen');
-        });
-
-        document.getElementById('btn-market').addEventListener('click', () => {
-            alert('Магазин пока недоступен.');
-        });
-
-        document.getElementById('btn-exchange').addEventListener('click', () => {
-            alert('Обмен пока недоступен.');
-        });
-
-        document.getElementById('btn-store').addEventListener('click', () => {
-            alert('Магазин пока недоступен.');
-        });
-
-        // Обработчики для выбора режима
-        document.getElementById('btn-penalty').addEventListener('click', () => {
-            showScreen('penalty-screen');
-        });
-
-        document.getElementById('btn-simulation').addEventListener('click', () => {
-            alert('Симуляция матча пока недоступна.');
-        });
-
-        document.getElementById('btn-back-to-menu').addEventListener('click', () => {
-            showScreen('main-menu');
-        });
-
-        // Обработчики для карточек игроков
-        document.querySelectorAll('.choose-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const playerCard = this.closest('.player-card');
-                const playerName = playerCard.getAttribute('data-player');
-                const playerRating = playerCard.querySelector('.card-info span:first-child').textContent.split(' ')[0];
-                const playerPosition = playerCard.querySelector('.card-info span:first-child').textContent.split(' ')[1];
-
-                // Добавляем игрока в команду
-                if (gameData.squad.length < 11) {
-                    gameData.squad.push({
-                        name: playerName,
-                        rating: playerRating,
-                        position: playerPosition
-                    });
-                    saveGame();
-                    updateUI();
-
-                    // Закрываем все другие выборы
-                    document.querySelectorAll('.player-card').forEach(card => {
-                        if (card !== playerCard) {
-                            card.style.opacity = '0.5';
-                            card.style.pointerEvents = 'none';
-                        }
-                    });
-
-                    // Показываем уведомление
-                    showNotification(`Игрок ${playerName} добавлен в команду!`);
-                } else {
-                    alert('Вы достигли лимита в 11 игроков!');
-                }
-            });
-        });
-
-        // Обработчики для ивентов
-        document.querySelectorAll('.neon-choose').forEach(button => {
-            button.addEventListener('click', function() {
-                const playerName = this.getAttribute('data-player');
-                const playerRating = this.closest('.neon-player').querySelector('span:first-child').textContent.split(' ')[0];
-                const playerPosition = this.closest('.neon-player').querySelector('span:first-child').textContent.split(' ')[1];
-
-                // Добавляем игрока в команду
-                if (gameData.squad.length < 11) {
-                    gameData.squad.push({
-                        name: playerName,
-                        rating: playerRating,
-                        position: playerPosition
-                    });
-                    saveGame();
-                    updateUI();
-
-                    // Закрываем все другие выборы
-                    document.querySelectorAll('.neon-player').forEach(player => {
-                        if (player !== this.closest('.neon-player')) {
-                            player.style.opacity = '0.5';
-                            player.style.pointerEvents = 'none';
-                        }
-                    });
-
-                    // Показываем уведомление
-                    showNotification(`Игрок ${playerName} добавлен в команду!`);
-                } else {
-                    alert('Вы достигли лимита в 11 игроков!');
-                }
-            });
-        });
-
-        // Обработчики для кнопок пенальти
-        document.getElementById('btn-quiet').addEventListener('click', () => {
-            performPenalty('Quiet');
-        });
-
-        document.getElementById('btn-cavadinha').addEventListener('click', () => {
-            performPenalty('Cavadinha');
-        });
-
-        document.getElementById('btn-replace').addEventListener('click', () => {
-            alert('Игрок заменён.');
-        });
-
-        document.getElementById('btn-super-kick').addEventListener('click', () => {
-            performPenalty('Super Kick');
-        });
-
-        document.getElementById('btn-penalty-back').addEventListener('click', () => {
-            showScreen('mode-select');
-        });
-
-        // Обработчики для других экранов
-        document.getElementById('btn-players-back').addEventListener('click', () => {
-            showScreen('main-menu');
-        });
-
-        document.getElementById('btn-clubs-back').addEventListener('click', () => {
-            showScreen('main-menu');
-        });
-
-        document.getElementById('btn-events-back').addEventListener('click', () => {
-            showScreen('main-menu');
-        });
-
-        document.getElementById('btn-start-penalty-quest').addEventListener('click', () => {
-            showScreen('penalty-screen');
-        });
-
-        console.log("✅ UI инициализирована.");
+    // --- Обработчики кнопок ---
+    document.getElementById('btn-quests').addEventListener('click', () => {
+        alert('Квесты пока недоступны.');
     });
 
-    function performPenalty(kickType) {
-        console.log(`Выполнен удар: ${kickType}`);
-        const success = Math.random() > 0.3; // 70% шанс забить
-        if (success) {
-            alert("ГОООООЛ! 🎉");
-            showNotification("Задание выполнено! Получите награду.");
-        } else {
-            alert("Промах! 😢");
-        }
+    document.getElementById('btn-leagues').addEventListener('click', () => {
+        alert('Лиги пока недоступны.');
+    });
+
+    document.getElementById('btn-market').addEventListener('click', () => {
+        alert('Рынок пока недоступен.');
+    });
+
+    document.getElementById('btn-exchange').addEventListener('click', () => {
+        alert('Обмен пока недоступен.');
+    });
+
+    document.getElementById('btn-store').addEventListener('click', () => {
+        alert('Магазин пока недоступен.');
+    });
+
+    // --- Обработчики для блоков ---
+    document.querySelector('.event-block').addEventListener('click', () => {
+        alert('Новое начало! Выберите режим.');
+    });
+
+    document.querySelector('.squad-block').addEventListener('click', () => {
+        showSquadScreen();
+    });
+
+    document.querySelectorAll('.event-card').forEach(card => {
+        card.addEventListener('click', () => {
+            alert('Событие начато!');
+        });
+    });
+
+    function showSquadScreen() {
+        alert('Открывается экран "МОЯ КОМАНДА".');
     }
 
     function showNotification(message) {
@@ -1148,6 +588,8 @@
             document.body.removeChild(notification);
         }, 3000);
     }
+
+    console.log("✅ UI инициализирована.");
 </script>
 
 </body>
