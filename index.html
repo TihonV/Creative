@@ -39,7 +39,6 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            color: #00ff00;
             z-index: 1000;
         }
 
@@ -53,6 +52,7 @@
         .loading-text {
             font-size: 1.5rem;
             font-weight: bold;
+            color: #00ff00;
             text-shadow: 0 0 5px rgba(0,255,0,0.8);
         }
 
@@ -73,7 +73,7 @@
             transition: width 2s ease;
         }
 
-        /* Стартовый экран */
+        /* Стартовый экран (как на фото FIFA) */
         #start-screen {
             position: fixed;
             top: 0;
@@ -87,42 +87,39 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            color: #00ff00;
             z-index: 999;
-        }
-
-        .start-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
         }
 
         .press-text {
             color: #f5f5dc; /* бежевый цвет */
-            font-size: 2rem;
+            font-size: 3rem;
             font-weight: bold;
-            text-shadow: 0 0 10px rgba(245, 245, 220, 0.5); /* полупрозрачность с тенью */
-            opacity: 0.7; /* полупрозрачность */
+            text-shadow: 0 0 10px rgba(245, 245, 220, 0.5);
+            opacity: 0.8;
             cursor: pointer;
             user-select: none;
+            letter-spacing: 2px;
+            font-family: 'Impact', Charcoal, sans-serif;
+            text-transform: uppercase;
         }
 
-        /* Главное меню */
+        /* Главное меню (как в FIFA) */
         #main-menu {
-            display: none; /* скрыто по умолчанию */
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9); /* затемненный фон */
+            background: url('https://avatars.mds.yandex.net/i?id=dd7e680f962951b4efb697014a748130_l-4449821-images-thumbs&n=13') no-repeat center center;
+            background-size: cover;
             z-index: 1000;
             overflow: hidden;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
-        .menu-content {
-            position: relative;
+        .menu-container {
             width: 100%;
             height: 100%;
             display: flex;
@@ -131,17 +128,18 @@
             justify-content: center;
         }
 
-        .header {
+        .menu-header {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 10px 20px;
-            background: rgba(0,0,0,0.7);
+            top: 20px;
+            left: 20px;
+            right: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 100;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            border-bottom: 2px solid #00ff00;
+            z-index: 10;
         }
 
         .user-info {
@@ -151,8 +149,8 @@
         }
 
         .avatar {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid #00ff00;
@@ -161,7 +159,7 @@
         .username {
             font-weight: bold;
             color: #00ff00;
-            font-size: 1.2rem;
+            font-size: 1rem;
         }
 
         .level {
@@ -169,17 +167,17 @@
             color: white;
             padding: 2px 6px;
             border-radius: 4px;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
         }
 
         .xp {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: #ccc;
         }
 
         .game-currency {
             display: flex;
-            gap: 20px;
+            gap: 15px;
             align-items: center;
         }
 
@@ -188,6 +186,7 @@
             align-items: center;
             gap: 5px;
             font-weight: bold;
+            font-size: 0.9rem;
         }
 
         .currency.gold {
@@ -204,19 +203,19 @@
 
         .icon-group {
             display: flex;
-            gap: 10px;
+            gap: 8px;
         }
 
         .icon-group img {
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
             cursor: pointer;
         }
 
         .menu-buttons {
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 15px;
             margin: 20px 0;
             flex-wrap: wrap;
             position: absolute;
@@ -226,20 +225,24 @@
         }
 
         .menu-button {
-            padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.2);
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.1);
             color: white;
             border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
             font-size: 1rem;
+            font-weight: bold;
             transition: all 0.3s ease;
             backdrop-filter: blur(5px);
+            font-family: 'Impact', Charcoal, sans-serif;
+            text-transform: uppercase;
         }
 
         .menu-button:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.2);
             transform: scale(1.05);
+            color: #00ff00;
         }
 
         .play-button {
@@ -247,15 +250,17 @@
             background: #00ff00;
             color: black;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: bold;
             transition: background 0.2s;
             position: absolute;
             top: 60%;
             left: 50%;
             transform: translate(-50%, -50%);
+            font-family: 'Impact', Charcoal, sans-serif;
+            text-transform: uppercase;
         }
 
         .play-button:hover {
@@ -271,21 +276,24 @@
             max-width: 600px;
             background: rgba(0,0,0,0.7);
             padding: 10px;
-            border-radius: 4px;
+            border-radius: 6px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 100;
+            z-index: 10;
+            border: 1px solid #00ff00;
         }
 
         .squad-title {
             color: #00ff00;
             font-weight: bold;
+            font-size: 1rem;
         }
 
         .squad-count {
             color: #fff;
             font-weight: bold;
+            font-size: 1rem;
         }
 
         .notification {
@@ -327,11 +335,11 @@
 
 <!-- Главное меню -->
 <div id="main-menu">
-    <div class="menu-content">
+    <div class="menu-container">
         <!-- Верхняя панель -->
-        <div class="header">
+        <div class="menu-header">
             <div class="user-info">
-                <img src="https://via.placeholder.com/50" alt="Аватар" class="avatar">
+                <img src="https://via.placeholder.com/40" alt="Аватар" class="avatar">
                 <div>
                     <span class="username">Lux</span>
                     <div class="level">5</div>
@@ -343,9 +351,9 @@
                 <span class="currency diamond">2,150</span>
                 <span class="currency green">0</span>
                 <div class="icon-group">
-                    <img src="https://via.placeholder.com/24?text=F" alt="Друзья">
-                    <img src="https://via.placeholder.com/24?text=P" alt="Почта">
-                    <img src="https://via.placeholder.com/24?text=S" alt="Настройки">
+                    <img src="https://via.placeholder.com/20?text=F" alt="Друзья">
+                    <img src="https://via.placeholder.com/20?text=P" alt="Почта">
+                    <img src="https://via.placeholder.com/20?text=S" alt="Настройки">
                 </div>
             </div>
         </div>
