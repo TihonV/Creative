@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FC Web 25</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/screens.css">
 </head>
 <body>
 
-<!-- Стартовый экран -->
+<!-- Загрузочный экран -->
 <div id="start-screen" class="screen active">
     <h1 class="press-text">PRESS</h1>
 </div>
@@ -40,9 +41,9 @@
 
         <!-- Кнопки -->
         <div class="menu-buttons">
-            <button class="menu-button" onclick="showScreen('events-screen')">EVENTS</button>
-            <button class="menu-button" onclick="alert('Режим "Кикер" пока недоступен.')">KICKER</button>
-            <button class="menu-button" onclick="alert('Режим "Турнир" пока недоступен.')">TOURNAMENT</button>
+            <button class="menu-button" onclick="window.location.href='events.html'">EVENTS</button>
+            <button class="menu-button" onclick="window.location.href='penalty.html'">PENALTY</button>
+            <button class="menu-button" onclick="window.location.href='squad.html'">SQUAD</button>
         </div>
 
         <!-- Кнопка PLAY -->
@@ -56,48 +57,8 @@
     </div>
 </div>
 
-<!-- Экран Ивенты -->
-<div id="events-screen" class="screen">
-    <h1>ИВЕНТЫ</h1>
-
-    <div class="event-banner">
-        <h2>ЗИМНИЙ ИВЕНТ</h2>
-        <p>Специальные скины, награды и бонусы!</p>
-    </div>
-
-    <div class="skins-grid">
-        <div class="skin-card">
-            <p>Messi Neon</p>
-            <button>ПОЛУЧИТЬ</button>
-        </div>
-        <div class="skin-card">
-            <p>Ronaldo Neon</p>
-            <button>ПОЛУЧИТЬ</button>
-        </div>
-    </div>
-
-    <div class="code-box">
-        Код: WINTER2025
-    </div>
-
-    <div class="quest-list">
-        <h3>ЗАДАНИЯ</h3>
-        <div class="quest-item">
-            <span>Забей пенальти</span>
-            <button>ВЫПОЛНИТЬ</button>
-        </div>
-        <div class="quest-item">
-            <span>Выиграй 3 матча</span>
-            <button>ВЫПОЛНИТЬ</button>
-        </div>
-    </div>
-
-    <button class="back-btn" onclick="showScreen('main-menu')">НАЗАД</button>
-</div>
-
-<div class="notification"></div>
-
 <script src="js/main.js"></script>
+<script src="js/game.js"></script>
 
 </body>
 </html>
