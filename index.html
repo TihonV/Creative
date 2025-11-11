@@ -23,19 +23,34 @@
             justify-content: center;
         }
 
-        /* Загрузочный экран — только "PRESS" */
-        #start-screen {
+        .screen {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            z-index: 1000;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .screen.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Загрузочный экран — только "PRESS" */
+        #start-screen {
             background: url('https://avatars.mds.yandex.net/i?id=24208835363afc86296e4f74d47e2f47071973ea-3986150-images-thumbs&n=13') no-repeat center center;
             background-size: cover;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            text-align: center;
             z-index: 999;
         }
 
@@ -54,17 +69,8 @@
 
         /* Главное меню — как в FIFA */
         #main-menu {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
             background: url('https://avatars.mds.yandex.net/i?id=dd7e680f962951b4efb697014a748130_l-4449821-images-thumbs&n=13') no-repeat center center;
             background-size: cover;
-            z-index: 1000;
-            padding: 20px;
-            box-sizing: border-box;
         }
 
         .menu-container {
@@ -244,6 +250,125 @@
             font-size: 1rem;
         }
 
+        /* Экран Ивенты — как на фото */
+        #events-screen {
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
+
+        #events-screen h1 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .event-banner {
+            background: #111;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .event-banner h2 {
+            color: #00ff00;
+            margin-bottom: 10px;
+        }
+
+        .event-banner p {
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        .skins-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .skin-card {
+            background: #222;
+            padding: 15px;
+            border-radius: 8px;
+            width: 150px;
+            text-align: center;
+        }
+
+        .skin-card p {
+            color: white;
+            margin: 10px 0;
+        }
+
+        .skin-card button {
+            background: #00ff00;
+            color: black;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .code-box {
+            background: #00ff00;
+            color: black;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .quest-list {
+            max-width: 600px;
+            margin: 30px auto;
+            text-align: left;
+        }
+
+        .quest-list h3 {
+            color: #00ff00;
+            margin-bottom: 10px;
+        }
+
+        .quest-item {
+            background: #222;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .quest-item span {
+            color: white;
+        }
+
+        .quest-item button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .back-btn {
+            background: transparent;
+            color: white;
+            border: 1px solid #fff;
+            padding: 5px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-top: 30px;
+        }
+
         .notification {
             position: fixed;
             top: 20px;
@@ -259,13 +384,13 @@
 </head>
 <body>
 
-<!-- Стартовый экран — только "PRESS" -->
-<div id="start-screen">
+<!-- Стартовый экран -->
+<div id="start-screen" class="screen active">
     <h1 class="press-text">PRESS</h1>
 </div>
 
-<!-- Главное меню — как в FIFA -->
-<div id="main-menu">
+<!-- Главное меню -->
+<div id="main-menu" class="screen">
     <div class="menu-container">
         <!-- Верхняя панель -->
         <div class="menu-header">
@@ -291,11 +416,9 @@
 
         <!-- Кнопки -->
         <div class="menu-buttons">
-            <button class="menu-button">QUESTS</button>
-            <button class="menu-button">LEAGUES</button>
-            <button class="menu-button">MARKET</button>
-            <button class="menu-button">EXCHANGE</button>
-            <button class="menu-button">STORE</button>
+            <button class="menu-button" onclick="showScreen('events-screen')">EVENTS</button>
+            <button class="menu-button" onclick="alert('Режим "Кикер" пока недоступен.')">KICKER</button>
+            <button class="menu-button" onclick="alert('Режим "Турнир" пока недоступен.')">TOURNAMENT</button>
         </div>
 
         <!-- Кнопка PLAY -->
@@ -309,22 +432,101 @@
     </div>
 </div>
 
+<!-- Экран Ивенты -->
+<div id="events-screen" class="screen">
+    <h1>ИВЕНТЫ</h1>
+
+    <div class="event-banner">
+        <h2>ЗИМНИЙ ИВЕНТ</h2>
+        <p>Специальные скины, награды и бонусы!</p>
+    </div>
+
+    <div class="skins-grid">
+        <div class="skin-card">
+            <p>Messi Neon</p>
+            <button>ПОЛУЧИТЬ</button>
+        </div>
+        <div class="skin-card">
+            <p>Ronaldo Neon</p>
+            <button>ПОЛУЧИТЬ</button>
+        </div>
+    </div>
+
+    <div class="code-box">
+        Код: WINTER2025
+    </div>
+
+    <div class="quest-list">
+        <h3>ЗАДАНИЯ</h3>
+        <div class="quest-item">
+            <span>Забей пенальти</span>
+            <button>ВЫПОЛНИТЬ</button>
+        </div>
+        <div class="quest-item">
+            <span>Выиграй 3 матча</span>
+            <button>ВЫПОЛНИТЬ</button>
+        </div>
+    </div>
+
+    <button class="back-btn" onclick="showScreen('main-menu')">НАЗАД</button>
+</div>
+
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // При клике на любой угол экрана — показываем главное меню
-        document.getElementById('start-screen').addEventListener('click', () => {
-            document.getElementById('start-screen').style.display = 'none';
-            document.getElementById('main-menu').style.display = 'block';
+    // --- Функция показа экрана ---
+    function showScreen(screenId) {
+        // Скрываем все экраны
+        document.querySelectorAll('.screen').forEach(screen => {
+            screen.classList.remove('active');
         });
+        // Показываем нужный
+        document.getElementById(screenId).classList.add('active');
+    }
 
-        // Обработчики кнопок
-        document.querySelectorAll('.menu-button').forEach(btn => {
-            btn.addEventListener('click', () => alert(`${btn.textContent} пока недоступен.`));
-        });
-
-        document.querySelector('.play-button').addEventListener('click', () => alert('Игра начата!'));
-        document.querySelector('.squad-block').addEventListener('click', () => alert('Открывается экран "МОЯ КОМАНДА".'));
+    // --- Обработчик клика по стартовому экрану ---
+    document.getElementById('start-screen').addEventListener('click', () => {
+        showScreen('main-menu');
     });
+
+    // --- Обработчики кнопок ---
+    document.querySelectorAll('.menu-button').forEach(button => {
+        button.addEventListener('click', () => {
+            alert(`${button.textContent} пока недоступен.`);
+        });
+    });
+
+    document.querySelector('.play-button').addEventListener('click', () => {
+        alert('Игра начата!');
+    });
+
+    document.querySelector('.squad-block').addEventListener('click', () => {
+        alert('Открывается экран "МОЯ КОМАНДА".');
+    });
+
+    // --- Обработчики кнопок в ивентах ---
+    document.querySelectorAll('#events-screen .skin-card button').forEach(button => {
+        button.addEventListener('click', () => {
+            alert('Скин получен! 🎉');
+        });
+    });
+
+    document.querySelectorAll('#events-screen .quest-item button').forEach(button => {
+        button.addEventListener('click', () => {
+            alert('Задание выполнено! 🏆');
+        });
+    });
+
+    // --- Уведомления ---
+    function showNotification(message) {
+        const notification = document.createElement('div');
+        notification.textContent = message;
+        notification.className = 'notification';
+        document.body.appendChild(notification);
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 3000);
+    }
+
+    console.log("✅ Все экраны готовы к работе.");
 </script>
 
 </body>
