@@ -5,29 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FC Web 25</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             background: #000;
             color: #fff;
-            font-family: monospace;
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow-x: hidden;
         }
 
         .screen {
-            padding: 20px;
-            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
         }
 
         .hidden {
             display: none !important;
         }
 
-        .loading-screen {
+        /* Загрузочный экран */
+        #loading-screen {
             background: url('https://avatars.mds.yandex.net/i?id=24208835363afc86296e4f74d47e2f47071973ea-3986150-images-thumbs&n=13') no-repeat center center;
             background-size: cover;
             display: flex;
@@ -35,50 +45,625 @@
             align-items: center;
             justify-content: center;
             text-align: center;
+            color: #00ff00;
         }
 
-        .main-menu {
+        .loading-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .loading-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(0,255,0,0.8);
+        }
+
+        .progress-bar {
+            width: 80%;
+            max-width: 400px;
+            height: 5px;
+            background: #333;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress {
+            width: 0%;
+            height: 100%;
+            background: #00ff00;
+            transition: width 2s ease;
+        }
+
+        /* Главное меню */
+        #main-menu {
             background: url('https://avatars.mds.yandex.net/i?id=10d21f8f0393d4612d4dbf1165969fb57b95112e-5305969-images-thumbs&n=13') no-repeat center center;
             background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
+            gap: 20px;
         }
 
-        h1, h2, h3 {
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+            padding: 10px;
+            background: rgba(0,0,0,0.7);
+            border-radius: 8px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #00ff00;
+        }
+
+        .user-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .username {
+            font-weight: bold;
             color: #00ff00;
-            margin: 10px 0;
         }
 
-        a {
-            color: #007bff;
-            text-decoration: none;
+        .level {
+            background: #007bff;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .xp {
+            font-size: 0.8rem;
+            color: #ccc;
+        }
+
+        .game-currency {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .currency {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: bold;
+        }
+
+        .currency.gold {
+            color: #ffd700;
+        }
+
+        .currency.diamond {
+            color: #ff0000;
+        }
+
+        .currency.green {
+            color: #00ff00;
+        }
+
+        .icon-group img {
+            width: 24px;
+            height: 24px;
+            margin-left: 10px;
             cursor: pointer;
         }
 
-        a:hover {
-            text-decoration: underline;
+        .menu-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            width: 100%;
+            max-width: 800px;
         }
 
-        button {
+        .menu-button {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+
+        .menu-button:hover {
+            background: #0056b3;
+        }
+
+        .play-button {
+            padding: 15px 40px;
+            background: #00ff00;
+            color: black;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        .play-button:hover {
+            background: #00cc00;
+        }
+
+        /* Экран выбора режима */
+        #mode-select {
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        #mode-select h2 {
+            font-size: 2rem;
+            color: #00ff00;
+        }
+
+        .mode-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .mode-button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .mode-button:hover {
+            background: #0056b3;
+        }
+
+        /* Экран 3D-пенальти */
+        #penalty-screen {
+            background: url('https://avatars.mds.yandex.net/i?id=24208835363afc86296e4f74d47e2f47071973ea-3986150-images-thumbs&n=13') no-repeat center center;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .penalty-header {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 10px;
+            background: rgba(0,0,0,0.7);
+            border-radius: 8px;
+        }
+
+        .scoreboard {
+            display: flex;
+            gap: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .player-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+        }
+
+        .player-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .penalty-viewer {
+            width: 100%;
+            height: 400px;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .penalty-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .penalty-button {
+            padding: 10px 20px;
             background: #333;
             color: white;
             border: none;
-            padding: 5px 10px;
-            margin: 5px 0;
+            border-radius: 50px;
             cursor: pointer;
-            font-family: monospace;
+            font-size: 0.9rem;
+            transition: background 0.2s;
         }
 
-        button:hover {
+        .penalty-button:hover {
             background: #555;
         }
 
-        .menu-item {
-            cursor: pointer;
-            padding: 5px 0;
+        /* Экран карточек игроков */
+        #players-screen {
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
         }
 
-        .menu-item:hover {
+        .players-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            width: 100%;
+        }
+
+        .player-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s;
+            position: relative;
+        }
+
+        .player-card:hover {
+            transform: scale(1.05);
+        }
+
+        .player-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-info {
+            padding: 10px;
+            background: #000;
+            color: white;
+            text-align: center;
+        }
+
+        .card-info span:first-child {
+            font-weight: bold;
             color: #00ff00;
+        }
+
+        .view-3d {
+            width: 100%;
+            padding: 5px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        /* Экран клубов */
+        #clubs-screen {
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .club-panel {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .club-stats {
+            background: rgba(0,0,0,0.7);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            width: 300px;
+        }
+
+        .club-stats img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .club-stats span {
+            display: block;
+            margin: 5px 0;
+            color: #fff;
+        }
+
+        .stat-circle {
+            width: 100px;
+            height: 100px;
+            border: 5px solid #007bff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px auto;
+        }
+
+        .stat-circle span {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .tournament-panel {
+            background: rgba(0,0,0,0.7);
+            padding: 20px;
+            border-radius: 8px;
+            flex: 1;
+        }
+
+        .tournament-panel h3 {
+            color: #00ff00;
+            margin-bottom: 10px;
+        }
+
+        .tournament-panel label {
+            display: block;
+            margin: 10px 0;
+            color: #fff;
+        }
+
+        .club-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .club-grid img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .search-status {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .search-status span:first-child {
+            color: #00ff00;
+            font-weight: bold;
+        }
+
+        .search-status span:last-child {
+            color: #ccc;
+            font-size: 0.8rem;
+        }
+
+        .search-status button {
+            padding: 5px 10px;
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Экран ивентов */
+        #events-screen {
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .event-banner {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            background: #111;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .event-banner img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .event-info {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .event-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #00ff00;
+        }
+
+        .neon-players {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .neon-player {
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            width: 150px;
+        }
+
+        .neon-player img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .neon-player span:first-child {
+            font-weight: bold;
+            color: #00ff00;
+        }
+
+        .neon-player button {
+            width: 100%;
+            padding: 5px;
+            background: #00ff00;
+            color: black;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .code-box {
+            background: #00ff00;
+            color: black;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .quest-list {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .quest-list h3 {
+            color: #00ff00;
+            margin-bottom: 10px;
+        }
+
+        .quest-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            margin: 5px 0;
+        }
+
+        .quest-item span {
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .quest-item button {
+            padding: 5px 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Система команды */
+        .my-squad {
+            background: rgba(0,0,0,0.7);
+            padding: 20px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 800px;
+            margin-top: 20px;
+        }
+
+        .squad-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .squad-header h3 {
+            color: #00ff00;
+        }
+
+        .squad-players {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .squad-player {
+            background: #333;
+            padding: 10px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .squad-player img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+
+        .squad-player span {
+            color: #fff;
         }
 
         .notification {
@@ -90,56 +675,65 @@
             padding: 10px 20px;
             border-radius: 8px;
             z-index: 1000;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
 <!-- Загрузочный экран -->
-<div id="loading-screen" class="screen loading-screen">
-    <h1>ЗАГРУЗКА</h1>
-    <p>GETTING WARMED UP...</p>
-    <div id="progress-bar" style="width: 100%; max-width: 400px; height: 10px; background: #333; border-radius: 5px; overflow: hidden;">
-        <div id="progress" style="width: 0%; height: 100%; background: #00ff00;"></div>
+<div id="loading-screen" class="screen">
+    <div class="loading-content">
+        <h1 class="loading-text">ЗАГРУЗКА</h1>
+        <p>GETTING WARMED UP...</p>
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
     </div>
 </div>
 
-<!-- Основное меню -->
-<div id="main-menu" class="screen hidden main-menu">
-    <h1>FC WEB 25</h1>
-    <div class="user-info">
-        <span>▶ Аватар</span>
-        <span>▶ Lux 5 20/120XP</span>
-        <span>▶ Друзья</span>
-        <span>▶ Почта</span>
-        <span>▶ Настройки</span>
+<!-- Главное меню -->
+<div id="main-menu" class="screen hidden">
+    <div class="header">
+        <div class="user-info">
+            <img src="https://via.placeholder.com/50" alt="Аватар" class="avatar">
+            <div class="user-stats">
+                <span class="username">Lux</span>
+                <span class="level">5</span>
+                <span class="xp">20/120XP</span>
+            </div>
+        </div>
+        <div class="game-currency">
+            <span class="currency gold">70,000</span>
+            <span class="currency diamond">2,150</span>
+            <span class="currency green">0</span>
+            <span class="icon-group">
+                <img src="https://via.placeholder.com/24" alt="Друзья">
+                <img src="https://via.placeholder.com/24" alt="Почта">
+                <img src="https://via.placeholder.com/24" alt="Настройки">
+            </span>
+        </div>
     </div>
-    <div class="game-currency">
-        <span>⚡ 70,000</span>
-        <span>💎 2,150</span>
-        <span>🟢 0</span>
-    </div>
-    <div class="club-info">
-        <h2>CLUB</h2>
-        <span>OVR 76</span>
-        <a href="https://www.fifamobile.com/clubs/psg" target="_blank">▶ Клуб</a>
-    </div>
+
     <div class="menu-buttons">
-        <div class="menu-item" id="btn-quests">QUESTS</div>
-        <div class="menu-item" id="btn-leagues">LEAGUES</div>
-        <div class="menu-item" id="btn-market">MARKET</div>
-        <div class="menu-item" id="btn-exchange">EXCHANGE</div>
-        <div class="menu-item" id="btn-store">STORE</div>
+        <button class="menu-button" id="btn-quests">QUESTS</button>
+        <button class="menu-button" id="btn-leagues">LEAGUES</button>
+        <button class="menu-button" id="btn-market">MARKET</button>
+        <button class="menu-button" id="btn-exchange">EXCHANGE</button>
+        <button class="menu-button" id="btn-store">STORE</button>
     </div>
-    <div class="game-controls">
-        <h3>Game controls</h3>
-        <label><input type="checkbox" checked> On-screen controls</label>
-        <label>Opacity: <input type="range" min="0" max="100" value="100"></label>
-        <label>Controls for: <select><option>Basic</option></select></label>
-        <button>Controls editor</button>
-    </div>
-    <div class="play-button">
-        <button id="btn-play">PLAY</button>
+
+    <button class="play-button" id="btn-play">PLAY</button>
+
+    <!-- Система моей команды -->
+    <div class="my-squad">
+        <div class="squad-header">
+            <h3>МОЯ КОМАНДА</h3>
+            <span>Игроков: <span id="squad-count">0</span>/11</span>
+        </div>
+        <div class="squad-players" id="squad-players">
+            <!-- Игроки будут добавляться сюда -->
+        </div>
     </div>
 </div>
 
@@ -147,49 +741,69 @@
 <div id="mode-select" class="screen hidden">
     <h2>Выберите режим</h2>
     <div class="mode-buttons">
-        <button id="btn-penalty">ПЕНАЛЬТИ</button>
-        <button id="btn-simulation">СИМУЛЯЦИЯ</button>
+        <button class="mode-button" id="btn-penalty">ПЕНАЛЬТИ</button>
+        <button class="mode-button" id="btn-simulation">СИМУЛЯЦИЯ</button>
     </div>
-    <button id="btn-back-to-menu">НАЗАД</button>
+    <button class="menu-button" id="btn-back-to-menu">НАЗАД</button>
 </div>
 
 <!-- Экран 3D-пенальти -->
 <div id="penalty-screen" class="screen hidden">
-    <h2>ПЕНАЛЬТИ</h2>
-    <div class="penalty-info">
-        <span>MCI 3 - 4 PSG</span>
-        <span>PENALTIES</span>
-        <span>Vinícius Jr.</span>
+    <div class="penalty-header">
+        <div class="scoreboard">
+            <span>MCI 3 - 4 PSG</span>
+            <span>PENALTIES</span>
+        </div>
+        <div class="player-info">
+            <span>Vinícius Jr.</span>
+            <img src="https://via.placeholder.com/40" alt="Игрок">
+        </div>
     </div>
     <div id="penalty-viewer" class="penalty-viewer"></div>
     <div class="penalty-controls">
-        <button id="btn-quiet">QUIET</button>
-        <button id="btn-cavadinha">CAVADINHA</button>
-        <button id="btn-replace">TO REPLACE</button>
-        <button id="btn-super-kick">SUPER KICK</button>
+        <button class="penalty-button" id="btn-quiet">QUIET</button>
+        <button class="penalty-button" id="btn-cavadinha">CAVADINHA</button>
+        <button class="penalty-button" id="btn-replace">TO REPLACE</button>
+        <button class="penalty-button" id="btn-super-kick">SUPER KICK</button>
     </div>
-    <button id="btn-penalty-back">НАЗАД</button>
+    <button class="menu-button" id="btn-penalty-back">НАЗАД</button>
 </div>
 
 <!-- Экран карточек игроков -->
 <div id="players-screen" class="screen hidden">
     <h2>КАРТОЧКИ ИГРОКОВ</h2>
-    <div class="players-list">
-        <div class="player-item">
-            <a href="https://www.futbin.com/25/player/109/cruyff" target="_blank">▶ Cruyff 109 CAM</a>
-            <button class="view-3d" data-player="cruyff">3D Вид</button>
+    <div class="players-grid">
+        <!-- Пример карточки -->
+        <div class="player-card" data-player="cruyff">
+            <img src="https://via.placeholder.com/200?text=Cruyff" alt="Cruyff">
+            <div class="card-info">
+                <span>109 CAM</span>
+                <span>Cruyff</span>
+            </div>
+            <button class="view-3d">3D Вид</button>
+            <button class="choose-btn">CHOOSE</button>
         </div>
-        <div class="player-item">
-            <a href="https://www.futbin.com/25/player/109/casillas" target="_blank">▶ Casillas 109 GK</a>
-            <button class="view-3d" data-player="casillas">3D Вид</button>
+        <div class="player-card" data-player="casillas">
+            <img src="https://via.placeholder.com/200?text=Casillas" alt="Casillas">
+            <div class="card-info">
+                <span>109 GK</span>
+                <span>Casillas</span>
+            </div>
+            <button class="view-3d">3D Вид</button>
+            <button class="choose-btn">CHOOSE</button>
         </div>
-        <div class="player-item">
-            <a href="https://www.futbin.com/25/player/109/bale" target="_blank">▶ Bale 109 RW</a>
-            <button class="view-3d" data-player="bale">3D Вид</button>
+        <div class="player-card" data-player="bale">
+            <img src="https://via.placeholder.com/200?text=Bale" alt="Bale">
+            <div class="card-info">
+                <span>109 RW</span>
+                <span>Bale</span>
+            </div>
+            <button class="view-3d">3D Вид</button>
+            <button class="choose-btn">CHOOSE</button>
         </div>
-        <!-- Добавьте больше игроков -->
+        <!-- Добавьте больше карточек -->
     </div>
-    <button id="btn-players-back">НАЗАД</button>
+    <button class="menu-button" id="btn-players-back">НАЗАД</button>
 </div>
 
 <!-- Экран клубов -->
@@ -197,31 +811,36 @@
     <h2>LEAGUE</h2>
     <div class="club-panel">
         <div class="club-stats">
-            <span>▶ FC Mobile</span>
+            <img src="https://via.placeholder.com/100?text=FC+Mobile" alt="Клуб">
+            <span>FC Mobile</span>
             <span>63/100</span>
             <span>99</span>
-            <span>WIN 75%</span>
+            <div class="stat-circle">
+                <span>WIN 75%</span>
+            </div>
             <span>FANS 8,500,000</span>
             <span>CUPS 9,500,000</span>
             <span>SEASON POINTS 250,000</span>
         </div>
         <div class="tournament-panel">
             <h3>LEAGUE TOURNAMENT</h3>
-            <label><input type="checkbox" checked> Automatically sign up for the league tournament.</label>
+            <label>
+                <input type="checkbox" checked> Automatically sign up for the league tournament.
+            </label>
             <h4>SELECTED:</h4>
-            <div class="club-links">
-                <a href="https://www.fifamobile.com/clubs/psg" target="_blank">▶ PSG</a>
-                <a href="https://www.fifamobile.com/clubs/man-city" target="_blank">▶ Man City</a>
-                <a href="https://www.fifamobile.com/clubs/liverpool" target="_blank">▶ Liverpool</a>
-                <a href="https://www.fifamobile.com/clubs/chelsea" target="_blank">▶ Chelsea</a>
-                <a href="https://www.fifamobile.com/clubs/tottenham" target="_blank">▶ Tottenham</a>
-                <a href="https://www.fifamobile.com/clubs/real" target="_blank">▶ Real Madrid</a>
-                <a href="https://www.fifamobile.com/clubs/atletico" target="_blank">▶ Atletico</a>
-                <a href="https://www.fifamobile.com/clubs/juventus" target="_blank">▶ Juventus</a>
-                <a href="https://www.fifamobile.com/clubs/dortmund" target="_blank">▶ Dortmund</a>
-                <a href="https://www.fifamobile.com/clubs/napoli" target="_blank">▶ Napoli</a>
-                <a href="https://www.fifamobile.com/clubs/roma" target="_blank">▶ Roma</a>
-                <a href="https://www.fifamobile.com/clubs/barca" target="_blank">▶ Barcelona</a>
+            <div class="club-grid">
+                <img src="https://via.placeholder.com/60?text=PSG" alt="PSG">
+                <img src="https://via.placeholder.com/60?text=Man+City" alt="Man City">
+                <img src="https://via.placeholder.com/60?text=Liverpool" alt="Liverpool">
+                <img src="https://via.placeholder.com/60?text=Chelsea" alt="Chelsea">
+                <img src="https://via.placeholder.com/60?text=Tottenham" alt="Tottenham">
+                <img src="https://via.placeholder.com/60?text=Real+Madrid" alt="Real Madrid">
+                <img src="https://via.placeholder.com/60?text=Atletico" alt="Atletico">
+                <img src="https://via.placeholder.com/60?text=Juventus" alt="Juventus">
+                <img src="https://via.placeholder.com/60?text=Dortmund" alt="Dortmund">
+                <img src="https://via.placeholder.com/60?text=Napoli" alt="Napoli">
+                <img src="https://via.placeholder.com/60?text=Roma" alt="Roma">
+                <img src="https://via.placeholder.com/60?text=Barca" alt="Barcelona">
             </div>
             <div class="search-status">
                 <span>FINDING OPPONENT</span>
@@ -230,30 +849,39 @@
             </div>
         </div>
     </div>
-    <button id="btn-clubs-back">НАЗАД</button>
+    <button class="menu-button" id="btn-clubs-back">НАЗАД</button>
 </div>
 
 <!-- Экран ивентов -->
 <div id="events-screen" class="screen hidden">
     <h2>EVENTS</h2>
     <div class="event-banner">
-        <a href="https://www.fifamobile.com/events/neon" target="_blank">▶ Choose Your NEON Player</a>
-        <div class="neon-players">
-            <div class="neon-player">
-                <a href="https://www.futbin.com/25/player/107/charlton" target="_blank">▶ Charlton 107 CAM</a>
-                <button>CHOOSE</button>
+        <img src="https://via.placeholder.com/800x200?text=NEON+EVENT" alt="Neon Event">
+        <div class="event-info">
+            <h3>Choose Your NEON Player</h3>
+            <div class="neon-players">
+                <div class="neon-player">
+                    <img src="https://via.placeholder.com/100?text=Charlton" alt="Charlton">
+                    <span>107 CAM</span>
+                    <span>Charlton</span>
+                    <button class="neon-choose" data-player="charlton">CHOOSE</button>
+                </div>
+                <div class="neon-player">
+                    <img src="https://via.placeholder.com/100?text=Maradona" alt="Maradona">
+                    <span>107 CAM</span>
+                    <span>Maradona</span>
+                    <button class="neon-choose" data-player="maradona">CHOOSE</button>
+                </div>
+                <div class="neon-player">
+                    <img src="https://via.placeholder.com/100?text=Hakimi" alt="Hakimi">
+                    <span>106 RB</span>
+                    <span>Hakimi</span>
+                    <button class="neon-choose" data-player="hakimi">CHOOSE</button>
+                </div>
             </div>
-            <div class="neon-player">
-                <a href="https://www.futbin.com/25/player/107/maradona" target="_blank">▶ Maradona 107 CAM</a>
-                <button>CHOOSE</button>
+            <div class="code-box">
+                <span>CODE: NEON</span>
             </div>
-            <div class="neon-player">
-                <a href="https://www.futbin.com/25/player/106/hakimi" target="_blank">▶ Hakimi 106 RB</a>
-                <button>CHOOSE</button>
-            </div>
-        </div>
-        <div class="code-box">
-            <span>CODE: NEON</span>
         </div>
     </div>
     <div class="quest-list">
@@ -271,18 +899,56 @@
             <button>НАЧАТЬ</button>
         </div>
     </div>
-    <button id="btn-events-back">НАЗАД</button>
+    <button class="menu-button" id="btn-events-back">НАЗАД</button>
 </div>
 
 <script>
-    // --- Ждём загрузки DOM ---
-    document.addEventListener('DOMContentLoaded', function () {
-        console.log("🎮 FC Web 25 запущена!");
+    // --- Глобальные переменные ---
+    let gameData = {
+        level: 5,
+        exp: 20,
+        coins: 70000,
+        gems: 2150,
+        squad: [],
+        teamName: "DarthTeam",
+        formation: "4-3-3 Защитная",
+        rating: 216,
+        totalRating: 540
+    };
 
-        // --- Запускаем загрузку ---
-        startLoading();
-    });
+    // --- Инициализация игры ---
+    function initGame() {
+        loadGame();
+        updateUI();
+    }
 
+    function loadGame() {
+        const saved = localStorage.getItem('fcWeb25');
+        if (saved) {
+            Object.assign(gameData, JSON.parse(saved));
+        }
+    }
+
+    function saveGame() {
+        localStorage.setItem('fcWeb25', JSON.stringify(gameData));
+    }
+
+    function updateUI() {
+        document.getElementById('squad-count').textContent = gameData.squad.length;
+        const squadPlayers = document.getElementById('squad-players');
+        squadPlayers.innerHTML = '';
+        gameData.squad.forEach(player => {
+            const playerElement = document.createElement('div');
+            playerElement.className = 'squad-player';
+            playerElement.innerHTML = `
+                <img src="https://via.placeholder.com/30?text=${player.name}" alt="${player.name}">
+                <span>${player.name} ${player.rating}</span>
+            `;
+            squadPlayers.appendChild(playerElement);
+        });
+    }
+
+    // --- Загрузка ---
     function startLoading() {
         const loadingScreen = document.getElementById('loading-screen');
         const progress = document.getElementById('progress');
@@ -296,184 +962,170 @@
                 setTimeout(() => {
                     loadingScreen.classList.add('hidden');
                     showScreen('main-menu');
+                    initGame();
                 }, 500);
             }
         }, 20);
     }
 
     function showScreen(screenId) {
-        // Скрываем все экраны
         document.querySelectorAll('.screen').forEach(screen => {
             screen.classList.add('hidden');
         });
-        // Показываем нужный экран
         document.getElementById(screenId).classList.remove('hidden');
     }
 
-    // --- Обработчики кнопок ---
-    document.getElementById('btn-play').addEventListener('click', () => {
-        showScreen('mode-select');
-    });
+    // --- Обработчики событий ---
+    document.addEventListener('DOMContentLoaded', function () {
+        console.log("🎮 FC Web 25 запущена!");
 
-    document.getElementById('btn-penalty').addEventListener('click', () => {
-        showScreen('penalty-screen');
-    });
+        // Запускаем загрузку
+        startLoading();
 
-    document.getElementById('btn-simulation').addEventListener('click', () => {
-        alert('Симуляция матча пока недоступна.');
-    });
-
-    document.getElementById('btn-back-to-menu').addEventListener('click', () => {
-        showScreen('main-menu');
-    });
-
-    document.getElementById('btn-quests').addEventListener('click', () => {
-        showScreen('events-screen');
-    });
-
-    document.getElementById('btn-leagues').addEventListener('click', () => {
-        showScreen('clubs-screen');
-    });
-
-    document.getElementById('btn-market').addEventListener('click', () => {
-        window.open('https://www.fifamobile.com/market', '_blank');
-    });
-
-    document.getElementById('btn-exchange').addEventListener('click', () => {
-        window.open('https://www.fifamobile.com/exchange', '_blank');
-    });
-
-    document.getElementById('btn-store').addEventListener('click', () => {
-        window.open('https://www.fifamobile.com/store', '_blank');
-    });
-
-    document.getElementById('btn-players-back').addEventListener('click', () => {
-        showScreen('main-menu');
-    });
-
-    document.getElementById('btn-clubs-back').addEventListener('click', () => {
-        showScreen('main-menu');
-    });
-
-    document.getElementById('btn-events-back').addEventListener('click', () => {
-        showScreen('main-menu');
-    });
-
-    document.getElementById('btn-start-penalty-quest').addEventListener('click', () => {
-        showScreen('penalty-screen');
-    });
-
-    // --- Обработчики для карточек игроков ---
-    document.querySelectorAll('.view-3d').forEach(button => {
-        button.addEventListener('click', function() {
-            const player = this.getAttribute('data-player');
-            open3DView(player);
+        // Обработчики кнопок главного меню
+        document.getElementById('btn-play').addEventListener('click', () => {
+            showScreen('mode-select');
         });
-    });
 
-    // --- Открытие 3D-просмотра ---
-    function open3DView(playerName) {
-        const modelPath = `models/${playerName}.glb`;
-        const newWindow = window.open('', '_blank', 'width=800,height=600');
-        newWindow.document.write(`
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <title>3D ${playerName}</title>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r168/build/three.min.js"></script>
-                <script src="https://cdn.jsdelivr.net/npm/three@0.168.0/examples/js/loaders/GLTFLoader.js"></script>
-                <script src="https://cdn.jsdelivr.net/npm/three@0.168.0/examples/js/controls/OrbitControls.js"></script>
-                <style>
-                    body { margin: 0; background: #000; }
-                    canvas { display: block; }
-                </style>
-            </head>
-            <body>
-                <script>
-                    const scene = new THREE.Scene();
-                    scene.background = new THREE.Color(0x000000);
+        document.getElementById('btn-quests').addEventListener('click', () => {
+            showScreen('events-screen');
+        });
 
-                    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-                    camera.position.z = 5;
+        document.getElementById('btn-leagues').addEventListener('click', () => {
+            showScreen('clubs-screen');
+        });
 
-                    const renderer = new THREE.WebGLRenderer({ antialias: true });
-                    renderer.setSize(window.innerWidth, window.innerHeight);
-                    document.body.appendChild(renderer.domElement);
+        document.getElementById('btn-market').addEventListener('click', () => {
+            alert('Магазин пока недоступен.');
+        });
 
-                    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-                    scene.add(ambientLight);
+        document.getElementById('btn-exchange').addEventListener('click', () => {
+            alert('Обмен пока недоступен.');
+        });
 
-                    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-                    directionalLight.position.set(1, 1, 1).normalize();
-                    scene.add(directionalLight);
+        document.getElementById('btn-store').addEventListener('click', () => {
+            alert('Магазин пока недоступен.');
+        });
 
-                    const controls = new THREE.OrbitControls(camera, renderer.domElement);
-                    controls.enableDamping = true;
-                    controls.dampingFactor = 0.05;
-                    controls.screenSpacePanning = false;
-                    controls.minDistance = 1;
-                    controls.maxDistance = 10;
+        // Обработчики для выбора режима
+        document.getElementById('btn-penalty').addEventListener('click', () => {
+            showScreen('penalty-screen');
+        });
 
-                    const loader = new THREE.GLTFLoader();
-                    loader.load(
-                        '${modelPath}',
-                        (gltf) => {
-                            scene.add(gltf.scene);
-                            const box = new THREE.Box3().setFromObject(gltf.scene);
-                            const center = box.getCenter(new THREE.Vector3());
-                            const size = box.getSize(new THREE.Vector3()).length();
-                            gltf.scene.position.sub(center);
-                            const scale = 2 / size;
-                            gltf.scene.scale.set(scale, scale, scale);
-                            camera.position.z = size * 1.5;
-                            controls.update();
-                        },
-                        (progress) => {
-                            console.log('Загрузка модели:', (progress.loaded / progress.total * 100).toFixed(2) + '%');
-                        },
-                        (error) => {
-                            console.error('Ошибка загрузки модели:', error);
-                            alert('Не удалось загрузить модель игрока.');
-                        }
-                    );
+        document.getElementById('btn-simulation').addEventListener('click', () => {
+            alert('Симуляция матча пока недоступна.');
+        });
 
-                    function animate() {
-                        requestAnimationFrame(animate);
-                        controls.update();
-                        renderer.render(scene, camera);
-                    }
-                    animate();
+        document.getElementById('btn-back-to-menu').addEventListener('click', () => {
+            showScreen('main-menu');
+        });
 
-                    window.addEventListener('resize', () => {
-                        camera.aspect = window.innerWidth / window.innerHeight;
-                        camera.updateProjectionMatrix();
-                        renderer.setSize(window.innerWidth, window.innerHeight);
+        // Обработчики для карточек игроков
+        document.querySelectorAll('.choose-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const playerCard = this.closest('.player-card');
+                const playerName = playerCard.getAttribute('data-player');
+                const playerRating = playerCard.querySelector('.card-info span:first-child').textContent.split(' ')[0];
+                const playerPosition = playerCard.querySelector('.card-info span:first-child').textContent.split(' ')[1];
+
+                // Добавляем игрока в команду
+                if (gameData.squad.length < 11) {
+                    gameData.squad.push({
+                        name: playerName,
+                        rating: playerRating,
+                        position: playerPosition
                     });
-                </script>
-            </body>
-            </html>
-        `);
-    }
+                    saveGame();
+                    updateUI();
 
-    // --- Обработчики для кнопок пенальти ---
-    document.getElementById('btn-quiet').addEventListener('click', () => {
-        performPenalty('Quiet');
-    });
+                    // Закрываем все другие выборы
+                    document.querySelectorAll('.player-card').forEach(card => {
+                        if (card !== playerCard) {
+                            card.style.opacity = '0.5';
+                            card.style.pointerEvents = 'none';
+                        }
+                    });
 
-    document.getElementById('btn-cavadinha').addEventListener('click', () => {
-        performPenalty('Cavadinha');
-    });
+                    // Показываем уведомление
+                    showNotification(`Игрок ${playerName} добавлен в команду!`);
+                } else {
+                    alert('Вы достигли лимита в 11 игроков!');
+                }
+            });
+        });
 
-    document.getElementById('btn-replace').addEventListener('click', () => {
-        alert('Игрок заменён.');
-    });
+        // Обработчики для ивентов
+        document.querySelectorAll('.neon-choose').forEach(button => {
+            button.addEventListener('click', function() {
+                const playerName = this.getAttribute('data-player');
+                const playerRating = this.closest('.neon-player').querySelector('span:first-child').textContent.split(' ')[0];
+                const playerPosition = this.closest('.neon-player').querySelector('span:first-child').textContent.split(' ')[1];
 
-    document.getElementById('btn-super-kick').addEventListener('click', () => {
-        performPenalty('Super Kick');
-    });
+                // Добавляем игрока в команду
+                if (gameData.squad.length < 11) {
+                    gameData.squad.push({
+                        name: playerName,
+                        rating: playerRating,
+                        position: playerPosition
+                    });
+                    saveGame();
+                    updateUI();
 
-    document.getElementById('btn-penalty-back').addEventListener('click', () => {
-        showScreen('mode-select');
+                    // Закрываем все другие выборы
+                    document.querySelectorAll('.neon-player').forEach(player => {
+                        if (player !== this.closest('.neon-player')) {
+                            player.style.opacity = '0.5';
+                            player.style.pointerEvents = 'none';
+                        }
+                    });
+
+                    // Показываем уведомление
+                    showNotification(`Игрок ${playerName} добавлен в команду!`);
+                } else {
+                    alert('Вы достигли лимита в 11 игроков!');
+                }
+            });
+        });
+
+        // Обработчики для кнопок пенальти
+        document.getElementById('btn-quiet').addEventListener('click', () => {
+            performPenalty('Quiet');
+        });
+
+        document.getElementById('btn-cavadinha').addEventListener('click', () => {
+            performPenalty('Cavadinha');
+        });
+
+        document.getElementById('btn-replace').addEventListener('click', () => {
+            alert('Игрок заменён.');
+        });
+
+        document.getElementById('btn-super-kick').addEventListener('click', () => {
+            performPenalty('Super Kick');
+        });
+
+        document.getElementById('btn-penalty-back').addEventListener('click', () => {
+            showScreen('mode-select');
+        });
+
+        // Обработчики для других экранов
+        document.getElementById('btn-players-back').addEventListener('click', () => {
+            showScreen('main-menu');
+        });
+
+        document.getElementById('btn-clubs-back').addEventListener('click', () => {
+            showScreen('main-menu');
+        });
+
+        document.getElementById('btn-events-back').addEventListener('click', () => {
+            showScreen('main-menu');
+        });
+
+        document.getElementById('btn-start-penalty-quest').addEventListener('click', () => {
+            showScreen('penalty-screen');
+        });
+
+        console.log("✅ UI инициализирована.");
     });
 
     function performPenalty(kickType) {
@@ -496,8 +1148,6 @@
             document.body.removeChild(notification);
         }, 3000);
     }
-
-    console.log("✅ UI инициализирована.");
 </script>
 
 </body>
